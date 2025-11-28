@@ -1,0 +1,30 @@
+# ARQUIVO: .gitignore
+
+# 1. Variáveis de Ambiente (CRUCIAL PARA SEGURANÇA)
+# Nunca envie chaves, senhas ou strings de conexão!
+.env
+
+# 2. Ambientes Virtuais (Virtual Environments)
+# O ambiente virtual é específico da máquina e deve ser recriado via requirements.txt
+venv/
+env/
+*.pyc
+
+# 3. Cache e Arquivos de Build
+__pycache__/
+*.so
+
+# 4. Arquivos do Sistema Operacional
+.DS_Store # macOS
+Thumbs.db # Windows
+
+# 5. Arquivos de Teste/Logs
+# Se você gerar logs ou arquivos temporários, ignore-os.
+*.log
+/tmp/
+
+# 6. Pacotes de Instalação (Python)
+# Arquivos gerados pelo pip
+dist/
+build/
+*.egg-info/
