@@ -1,4 +1,3 @@
-# Arquivo: backend/app/crud/crud_users.py
 
 from motor.motor_asyncio import AsyncIOMotorDatabase
 from typing import Optional, Dict, Any, List
@@ -55,7 +54,6 @@ class CRUDUser:
             return document
         return None
 
-    # READ (Listar Todos)
     async def get_all_users(self) -> List[Dict[str, Any]]:
         self.is_db_active()
         users_cursor = self.collection.find({}, {"hashed_password": 0}) 
@@ -65,7 +63,6 @@ class CRUDUser:
             lista_usuarios.append(user)
         return lista_usuarios
     
-    # UPDATE
     async def update_user(self, user_id: str, update_data: Dict[str, Any]) -> Optional[Dict[str, Any]]:
         self.is_db_active()
         try:
