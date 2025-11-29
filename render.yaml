@@ -1,10 +1,15 @@
+# Arquivo: render.yaml
+
 services:
 
+  # =========================================================
+  # 1. Serviço de Backend (FastAPI Python)
+  # =========================================================
   - type: web
     name: jornal-backend
     runtime: python
     rootDir: ./backend 
-    region: oregon 
+    region: oregon
     
     buildCommand: pip install -r app/requirements.txt
     
@@ -20,12 +25,26 @@ services:
       - key: SECRET_KEY
         sync: false
       - key: FRONTEND_URL
-        value: https://jornal-frontend-sua-conta.onrender.com
+        value: https://jornal-frontend-sua-conta.onrender.com 
 
-  - type: web
+  # =========================================================
+  # 2. Serviço de Frontend (Vite/React - AGORA TIPO WEB/NODE)
+  # =========================================================
+  - type: web # Alteramos para 'web' para satisfazer a exigência de runtime e startCommand
     name: jornal-frontend
+    runtime: node # Definimos o runtime Node para o npm
     rootDir: ./frontend 
     
+    # Instala dependências do Node e gera a build de produção (dist)
     buildCommand: npm install && npm run build
     
-    staticPublishPath: ./dist
+    # CORREÇÃO: Comando para servir arquivos estáticos a partir da pasta 'dist'
+    # Usaremos o pacote 'serve' (Render o disponibiliza para staticPublishPath, mas aqui usamos o comando)
+    startCommand: npm install -g serve && serve -s dist
+    
+    # Definimos a porta para o servidor estático
+    envVars:
+      - key: PORT
+        value: 10000 
+      - key: NODE_VERSION
+        value: 18.17.0
