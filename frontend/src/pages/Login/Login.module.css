@@ -89,3 +89,20 @@
 .registerLink a:hover {
   text-decoration: underline;
 }
+
+.backHome {
+    margin-top: 10px;
+    font-size: 0.85rem;
+    text-align: center;
+}
+
+.backHome a {
+    color: #444;
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+.backHome a:hover {
+    color: #004aad;
+    text-decoration: underline;
+}
