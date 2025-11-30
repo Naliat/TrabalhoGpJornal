@@ -37,7 +37,8 @@ async def lifespan(app: FastAPI):
             
     else:
         print("⚠️ Variáveis MONGO_DB_URL ou MONGO_DB_NAME não definidas. Conexão com DB pulada.")
-        yield 
+    
+    yield 
 
     if app.state.mongodb_client:
         app.state.mongodb_client.close()
