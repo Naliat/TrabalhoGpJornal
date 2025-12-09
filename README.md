@@ -20,6 +20,7 @@ O projeto está dividido em dois diretórios principais, sendo gerenciado a part
 ```
 uvicorn backend.app.main:app --reload
 ```
+### É necessario a necessedidade de logar para puder cadastrar
 
 ### post/editais/
 
