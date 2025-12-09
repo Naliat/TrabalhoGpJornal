@@ -16,3 +16,7 @@ O projeto está dividido em dois diretórios principais, sendo gerenciado a part
 * **Python 3.10+**
 * **Node.js & npm**
 * Acesso ao seu cluster **MongoDB Atlas**.
+
+```
+uvicorn backend.app.main:app --reload
+```
