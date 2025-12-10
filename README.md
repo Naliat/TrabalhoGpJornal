@@ -20,6 +20,9 @@ O projeto está dividido em dois diretórios principais, sendo gerenciado a part
 ```
 uvicorn backend.app.main:app --reload
 ```
+
+![Texto alternativo](modelagemBd.png)
+
 ### É necessario a necessedidade de logar para puder cadastrar
 
 ### post/editais/
