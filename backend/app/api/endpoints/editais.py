@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends, HTTPException, status, Query
 from typing import List
 from .auth import get_db, get_current_user, UserResponse 
-from ...schemas.edital import EditalCreate, EditalResponse # Schemas
+from ...schemas.edital import EditalCreate, EditalResponse
 from ...crud.crud_editais import (
     create_edital, 
     get_edital_by_id, 
