@@ -1,16 +1,19 @@
 from fastapi import APIRouter, Depends, HTTPException, status, Request
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm 
 from pydantic import BaseModel, EmailStr
-from typing import Optional, Annotated
+from typing import Optional, Annotated, Literal
 from passlib.context import CryptContext
 from motor.motor_asyncio import AsyncIOMotorDatabase
 from bson import ObjectId
+
 from ...core.security import create_access_token, decode_access_token
 
 
 router = APIRouter(prefix="/auth", tags=["auth"])
 pwd_context = CryptContext(schemes=["argon2"], deprecated="auto") 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="auth/login") 
+
+UserType = Literal["Aluno", "Professor"] 
 
 
 UsernameStr = Annotated[str, 3, 50]
@@ -20,11 +23,13 @@ class UserCreate(BaseModel):
     username: str
     email: EmailStr
     password: str
+    user_type: UserType = "Aluno" 
 
 class UserResponse(BaseModel):
     id: Optional[str]
     username: str
     email: EmailStr
+    user_type: UserType 
 
 class TokenResponse(BaseModel):
     access_token: str
@@ -67,7 +72,6 @@ async def get_current_user(
     """Decodifica o token JWT e retorna o usuário autenticado."""
     
     payload = decode_access_token(token)
-    
     user_id = payload.get("user_id") 
     
     if user_id is None:
@@ -87,9 +91,15 @@ async def get_current_user(
         )
     
     user_data["id"] = str(user_data["_id"])
-    return UserResponse(**user_data)
-
-
+    
+    try:
+        return UserResponse(**user_data)
+    except Exception as e:
+        print(f"Erro de Validação de Usuário (user_type ausente?): {e}")
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail="Erro na estrutura do usuário no banco de dados. Tente recriar o usuário."
+        )
 
 @router.post("/register", response_model=UserResponse, status_code=status.HTTP_201_CREATED)
 async def register(user: UserCreate, db: AsyncIOMotorDatabase = Depends(get_db)):
@@ -104,7 +114,8 @@ async def register(user: UserCreate, db: AsyncIOMotorDatabase = Depends(get_db))
     user_dict = {
         "username": user.username,
         "email": user.email,
-        "password": hashed_password
+        "password": hashed_password,
+        "user_type": user.user_type 
     }
     
     result = await db.users.insert_one(user_dict)

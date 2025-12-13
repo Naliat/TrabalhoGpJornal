@@ -9,7 +9,6 @@ ACCESS_TOKEN_EXPIRE_MINUTES = 30
 
 
 def create_access_token(data: dict, expires_delta: Union[timedelta, None] = None) -> str:
-    """Cria um token JWT codificado com dados e tempo de expiração."""
     to_encode = data.copy()
     
     if expires_delta:

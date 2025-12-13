@@ -1,24 +1,25 @@
+import logging
+import time
 from contextlib import asynccontextmanager
-from fastapi import FastAPI
+from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 from motor.motor_asyncio import AsyncIOMotorClient
+from starlette.middleware.base import BaseHTTPMiddleware
 from .core.config import settings
-from .api.endpoints import noticias
-from .api.endpoints import users
-from .api.endpoints import auth
+from .api.endpoints import noticias, users, auth, editais
+
+logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+logger = logging.getLogger(__name__)
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    """
-    Função de gerenciamento do ciclo de vida (startup/shutdown) do aplicativo.
-    Responsável por conectar e desconectar o MongoDB.
-    """
-    print("🔌 Iniciando servidor...")
+    logger.info("🔌 Iniciando servidor e preparando recursos...")
+    
     app.state.mongodb_client = None
     app.state.database = None
     
     if settings.MONGO_DB_URL and settings.MONGO_DB_NAME:
-        print("🔌 Tentando conectar ao MongoDB Atlas...")
+        logger.info("⏳ Tentando conectar ao MongoDB Atlas...")
         
         try:
             mongodb_client = AsyncIOMotorClient(settings.MONGO_DB_URL)
@@ -28,54 +29,88 @@ async def lifespan(app: FastAPI):
             
             app.state.database = mongodb_client[settings.MONGO_DB_NAME]
             
-            print(f"✅ Conexão com MongoDB Atlas ({settings.MONGO_DB_NAME}) bem-sucedida!")
+            logger.info(f"✅ Conexão com MongoDB Atlas ({settings.MONGO_DB_NAME}) bem-sucedida!")
             
         except Exception as e:
-            print(f"❌ Falha fatal ao conectar ao MongoDB Atlas. O erro original foi: {e}")
+            logger.error(f"❌ Falha fatal ao conectar ao MongoDB Atlas. O erro foi: {e}", exc_info=True)
             app.state.database = None 
             app.state.mongodb_client = None
             
     else:
-        print("⚠️ Variáveis MONGO_DB_URL ou MONGO_DB_NAME não definidas. Conexão com DB pulada.")
+        logger.warning("⚠️ Variáveis MONGO_DB_URL ou MONGO_DB_NAME não definidas. Conexão com DB pulada.")
     
-    yield 
+    yield
 
     if app.state.mongodb_client:
         app.state.mongodb_client.close()
-        print("🔌 Conexão com MongoDB Atlas fechada.")
+        logger.info("🔌 Conexão com MongoDB Atlas fechada. Servidor encerrado.")
+    else:
+        logger.info("🛑 Servidor encerrado.")
 
-app = FastAPI(
-    title="API de Jornal (FastAPI + MongoDB Atlas)",
-    version="1.0.0",
-    description="Backend para gerenciamento de notícias e usuários.",
-    lifespan=lifespan 
-)
+class LoggingMiddleware(BaseHTTPMiddleware):
+    async def dispatch(self, request: Request, call_next):
+        start_time = time.time()
+        
+        # Processa a requisição
+        response = await call_next(request)
+        
+        process_time = time.time() - start_time
+        
+        # Log detalhado do movimento
+        logger.info(
+            f"HTTP | {request.client.host}:{request.client.port} "
+            f"| {request.method} {request.url.path} "
+            f"| Status: {response.status_code} "
+            f"| Tempo: {process_time:.4f}s"
+        )
+        
+        return response
 
-origins = [
-    settings.FRONTEND_URL, 
-]
+def create_app() -> FastAPI:
+    application = FastAPI(
+        title="API de Jornal (FastAPI + MongoDB Atlas)",
+        version="1.0.0",
+        description="Backend para gerenciamento de notícias, usuários e editais.",
+        lifespan=lifespan,
+        docs_url="/docs",
+        redoc_url="/redoc",
+        openapi_url="/openapi.json" 
+    )
 
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=origins,              
-    allow_credentials=True,
-    allow_methods=["*"],                
-    allow_headers=["*"],                
-)
+    origins = [
+        settings.FRONTEND_URL, 
+    ]
+    application.add_middleware(
+        CORSMiddleware,
+        allow_origins=origins,              
+        allow_credentials=True,
+        allow_methods=["*"],                
+        allow_headers=["*"],                
+    )
 
-app.include_router(noticias.router)  
-app.include_router(users.router)     
-app.include_router(auth.router)      
+    # Adiciona o Middleware de Logging ANTES das rotas serem acessadas
+    application.add_middleware(LoggingMiddleware)
+
+    application.include_router(noticias.router, tags=["Notícias"])  
+    application.include_router(users.router, tags=["Usuários"])     
+    application.include_router(auth.router, tags=["Autenticação"])
+    application.include_router(editais.router, tags=["Editais"])
+    
+    return application
+
+app = create_app()
 
 @app.get("/", tags=["Status"])
-async def read_root():
-    """Retorna uma mensagem de status e a localização da documentação."""
-    
-    db_obj = getattr(app.state, 'database', None)
+async def read_root(request: Request):
+    """
+    Retorna uma mensagem de status da API e o estado da conexão com o banco de dados.
+    """
+    db_obj = getattr(request.app.state, 'database', None)
     db_status = "Conectado" if db_obj is not None else "Desconectado/Falhou"
     
     return {
-        "message": "API rodando!", 
+        "message": "API de Jornal rodando!", 
         "database_status": db_status,
-        "docs_url": "/docs"
+        "docs_url": f"{request.url.scheme}://{request.url.netloc}/docs",
+        "redoc_url": f"{request.url.scheme}://{request.url.netloc}/redoc",
     }
