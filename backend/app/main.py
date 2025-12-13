@@ -88,7 +88,6 @@ def create_app() -> FastAPI:
         allow_headers=["*"],                
     )
 
-    # Adiciona o Middleware de Logging ANTES das rotas serem acessadas
     application.add_middleware(LoggingMiddleware)
 
     application.include_router(noticias.router, tags=["Notícias"])  
