@@ -1,7 +1,8 @@
 from fastapi import APIRouter, Depends, HTTPException, status, Query
 from typing import List
+
 from .auth import get_db, get_current_user, UserResponse 
-from ...schemas.edital import EditalCreate, EditalResponse
+from ...schemas.edital import EditalCreate, EditalResponse # Schemas
 from ...crud.crud_editais import (
     create_edital, 
     get_edital_by_id, 
@@ -12,7 +13,7 @@ from ...crud.crud_editais import (
 from motor.motor_asyncio import AsyncIOMotorDatabase
 from pydantic import BaseModel 
 
-router = APIRouter(prefix="/editais", tags=["editais"])
+router = APIRouter(prefix="/editais") 
 
 
 class EditalUpdate(EditalCreate):
@@ -41,6 +42,7 @@ async def create_edital_endpoint(
     db_edital = await create_edital(db, edital, professor_id, professor_username)
     
     return db_edital
+
 @router.get("/", response_model=List[EditalResponse])
 async def read_editais_endpoint(
     db: AsyncIOMotorDatabase = Depends(get_db),
@@ -98,7 +100,6 @@ async def update_edital_endpoint(
          raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail="Falha ao salvar a atualização.")
 
     return updated_edital
-
 
 @router.delete("/{edital_id}", status_code=status.HTTP_204_NO_CONTENT)
 async def delete_edital_endpoint(
