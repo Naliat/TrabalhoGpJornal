@@ -59,6 +59,26 @@
   border-color: #004aad;
 }
 
+.inputGroup select {
+  padding: 10px 12px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  outline: none;
+  font-size: 15px;
+  background-color: #fff;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.inputGroup select:focus {
+  border-color: #004aad;
+}
+
+.inputGroup select:disabled {
+  background-color: #f2f2f2;
+  cursor: not-allowed;
+}
+
 .registerBtn {
   margin-top: 10px;
   padding: 10px;
@@ -88,4 +108,21 @@
 
 .loginRedirect a:hover {
   text-decoration: underline;
+}
+
+.backHome {
+    margin-top: 10px;
+    font-size: 0.85rem;
+    text-align: center;
+}
+
+.backHome a {
+    color: #444;
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+.backHome a:hover {
+    color: #004aad;
+    text-decoration: underline;
 }

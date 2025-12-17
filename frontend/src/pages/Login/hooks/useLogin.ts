@@ -9,7 +9,7 @@ export function useLogin() {
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
 
-  async function handleLogin(email: string, password: string) {
+  async function handleLogin(email: string, password: string): Promise<void> {
     setErrorMessage("");
 
     try {
