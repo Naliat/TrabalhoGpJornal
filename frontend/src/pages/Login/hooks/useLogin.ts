@@ -23,7 +23,7 @@ export function useLogin() {
       navigate("/home");
     } catch (error: unknown) {
       if (error instanceof LoginServiceError) {
-        setErrorMessage(error.message);
+        setErrorMessage("Não foi possível realizar o login.");
         return;
       }
 

@@ -40,7 +40,7 @@ export function useRegister() {
       navigate("/login");
     } catch (error: any) {
       if (error instanceof RegisterServiceError) {
-        setErrorMessage(error.message);
+        setErrorMessage("Não foi possível realizar o cadastro.");
         return;
       }
 
