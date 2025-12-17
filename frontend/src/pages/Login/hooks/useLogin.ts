@@ -2,9 +2,11 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { loginUser } from "../../../api/service/auth/loginUser";
 import { LoginServiceError } from "../../../errors/auth/LoginServiceError";
+import { useAuth } from "../../../auth/hooks/useAuth";
 
 export function useLogin() {
   const navigate = useNavigate();
+  const { login } = useAuth()
 
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
@@ -16,8 +18,7 @@ export function useLogin() {
       setIsLoading(true);
 
       const token = await loginUser(email, password);
-
-      localStorage.setItem("access_token", token.access_token);
+      login(token.access_token);
 
       navigate("/home");
     } catch (error: unknown) {

@@ -1,7 +1,7 @@
 import ENV from "../../../config/envConfig";
 import { LoginServiceError } from "../../../errors/auth/LoginServiceError";
 import type { TokenResponseDTO } from "../../../types/auth/dto/TokenResponseDTO";
-import { parseErrorResponse } from "../../utils/parseErrorResponse";
+import { parseErrorResponse } from "../../../utils/parseErrorResponse";
 
 export async function loginUser(email: string, password: string): Promise<TokenResponseDTO> {
     const url = `${ENV.API_BASE_URL}/auth/login`;

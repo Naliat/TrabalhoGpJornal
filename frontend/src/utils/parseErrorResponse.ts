@@ -1,4 +1,4 @@
-import type { ServiceError } from "../../errors/base/ServiceError";
+import type { ServiceError } from "../errors/base/ServiceError";
 
 export async function parseErrorResponse<E extends ServiceError>(
   response: Response,
