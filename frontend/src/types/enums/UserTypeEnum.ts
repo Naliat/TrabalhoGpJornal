@@ -1,6 +1,6 @@
 export const USER_TYPE = {
   TEACHER: "Professor",
-  STUDENT: "Estudante",
+  STUDENT: "Aluno",
   ADMIN: "Admin",
   OTHERS: "Outros",
 } as const;

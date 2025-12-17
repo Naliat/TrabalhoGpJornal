@@ -63,7 +63,7 @@ function Login() {
         </form>
 
         <p className={styles.registerLink}>
-          Não tem conta? <Link to="/register">Registre-se</Link>
+          Não tem conta? <Link to="/registro">Registre-se</Link>
         </p>
 
         <p className={styles.backHome}>

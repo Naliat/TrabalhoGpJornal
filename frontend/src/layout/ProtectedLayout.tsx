@@ -1,12 +1,13 @@
-import { Navigate, Outlet } from "react-router-dom";
-import Navbar from "../components/Navbar/Navbar";
+import { Outlet, Navigate } from "react-router-dom";
 import { useAuth } from "../auth/hooks/useAuth";
+import Navbar from "../components/Navbar/Navbar";
 
 function ProtectedLayout() {
   const { isAuthenticated } = useAuth();
 
-  if (!isAuthenticated )
+  if (!isAuthenticated) {
     return <Navigate to="/login" replace />;
+  }
 
   return (
     <>

@@ -1,23 +1,31 @@
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+
+import PublicLayout from "../layout/PublicLayout";
 import ProtectedLayout from "../layout/ProtectedLayout";
+
 import Login from "../pages/Login/Login";
 import Register from "../pages/Register/Register";
+import Landing from "../pages/Landing/Landing";
+import { Home } from "lucide-react";
 
-import Landing from "../pages/Landing/Landing"; 
 
 function AppRouter() {
-    return (
-        <BrowserRouter>
-            <Routes>
-                <Route path="/login" element={<Login />} />
-                <Route path="/register" element={<Register />} />
-                
-                <Route element={<ProtectedLayout />}>
-                    <Route path="/" element={<Landing />} /> 
-                </Route>
-            </Routes>
-        </BrowserRouter>
-    );
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route path="/login" element={<Login />} />
+        <Route path="/registro" element={<Register />} />
+
+        <Route element={<PublicLayout />}>
+          <Route path="/" element={<Landing />} />
+        </Route>
+
+        <Route element={<ProtectedLayout />}>
+          <Route path="/home" element={<Home />} />
+        </Route>
+      </Routes>
+    </BrowserRouter>
+  );
 }
 
 export default AppRouter;
