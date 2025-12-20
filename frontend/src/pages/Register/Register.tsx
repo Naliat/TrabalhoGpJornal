@@ -4,13 +4,17 @@ import logo from "../../assets/logo_ufc_quixada.png";
 import { Link } from "react-router-dom";
 import { useRegister } from "./hooks/useRegister";
 import { USER_TYPE, type UserType } from "../../types/enums/UserTypeEnum";
+import type { UserForm } from "../../types/user/domain/UserForm";
 
 function Register() {
-  const [username, setUsername] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
-  const [userType, setUserType] = useState<UserType>(USER_TYPE.STUDENT);
+  const [formData, setFormData] = useState<UserForm>({
+    firstName: "",
+    secondName: "",
+    email: "",
+    password: "",
+    userType: USER_TYPE.STUDENT,
+  });
+
 
   const {
     handleRegister,
@@ -27,24 +31,36 @@ function Register() {
 
         <form className={styles.form}>
           <div className={styles.inputGroup}>
-            <label>Usuário</label>
+            <label>Nome</label>
             <input
               type="text"
-              placeholder="Digite seu usuário"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
+              placeholder="Digite seu nome"
+              value={formData.firstName}
+              onChange={(e) => setFormData({...formData, firstName: e.target.value})}
               required
               disabled={isLoading}
             />
           </div>
 
           <div className={styles.inputGroup}>
-            <label>Email</label>
+            <label>Sobrenome</label>
+            <input
+              type="text"
+              placeholder="Digite seu sobrenome"
+              value={formData.secondName}
+              onChange={(e) => setFormData({...formData, secondName: e.target.value})}
+              required
+              disabled={isLoading}
+            />
+          </div>
+
+          <div className={styles.inputGroup}>
+            <label>E-mail institucional</label>
             <input
               type="email"
               placeholder="Digite seu email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              value={formData.email}
+              onChange={(e) => setFormData({...formData, email: e.target.value})}
               required
               disabled={isLoading}
             />
@@ -53,8 +69,8 @@ function Register() {
           <div className={styles.inputGroup}>
             <label>Tipo de usuário</label>
             <select
-              value={userType}
-              onChange={(e) => setUserType(e.target.value as UserType)}
+              value={formData.userType}
+              onChange={(e) => setFormData({...formData, userType: e.target.value as UserType})}
               disabled={isLoading}
               required
             >
@@ -71,20 +87,8 @@ function Register() {
             <input
               type="password"
               placeholder="Crie uma senha"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-              disabled={isLoading}
-            />
-          </div>
-
-          <div className={styles.inputGroup}>
-            <label>Confirmar senha</label>
-            <input
-              type="password"
-              placeholder="Repita a senha"
-              value={confirmPassword}
-              onChange={(e) => setConfirmPassword(e.target.value)}
+              value={formData.password}
+              onChange={(e) => setFormData({...formData, password: e.target.value})}
               required
               disabled={isLoading}
             />
@@ -100,15 +104,7 @@ function Register() {
             type="button"
             className={styles.registerBtn}
             disabled={isLoading}
-            onClick={() =>
-              handleRegister(
-                username,
-                email,
-                password,
-                confirmPassword,
-                userType
-              )
-            }
+            onClick={() => handleRegister(formData)}
           >
             {isLoading ? "Registrando..." : "Registrar"}
           </button>

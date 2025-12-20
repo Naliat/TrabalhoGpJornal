@@ -1,7 +1,8 @@
 import type { UserType } from "../../enums/UserTypeEnum";
 
 export interface UserForm {
-    username: string;
+    firstName: string;
+    secondName: string;
     email: string;
     password: string;
     userType: UserType;

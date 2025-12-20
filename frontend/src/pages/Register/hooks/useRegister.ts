@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import type { UserType } from "../../../types/enums/UserTypeEnum";
 import { registerUser } from "../../../api/service/user/registerUser";
 import { toUserCreateDTO } from "../../../mappers/user/toUserCreateDTO";
 import { RegisterServiceError } from "../../../errors/user/RegisterServiceError";
+import type { UserForm } from "../../../types/user/domain/UserForm";
 
 export function useRegister() {
   const navigate = useNavigate();
@@ -11,30 +11,14 @@ export function useRegister() {
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
 
-  async function handleRegister(
-    username: string,
-    email: string,
-    password: string,
-    confirmPassword: string,
-    userType: UserType
-  ): Promise<void> {
+  async function handleRegister(user: UserForm): Promise<void> {
     setErrorMessage("");
-
-    if (password !== confirmPassword) {
-      setErrorMessage("As senhas não coincidem.");
-      return;
-    }
 
     try {
       setIsLoading(true);
 
       await registerUser(
-        toUserCreateDTO({
-          username,
-          email,
-          password,
-          userType,
-        })
+        toUserCreateDTO(user)
       );
 
       navigate("/login");
