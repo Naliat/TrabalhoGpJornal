@@ -1,23 +1,26 @@
 import { Search } from "lucide-react";
 import { NavLink, useNavigate } from "react-router-dom";
 
-import styles from "./Navbar.module.css";
 import Logotype from "../Logotype/Logotype";
+import { LOGO_SIZE_TYPE } from "../../types/enums/LogoSizeTypeEnum";
 
-function Navbar() {
+import styles from "./Header.module.css";
+
+function Header() {
   const navigate = useNavigate();
 
   function redirectToLogin() {
     navigate("/login");
   }
 
-  return (
-    <header className={styles.navbar}>
-      <div className={styles.left}>
-        <Logotype size="sm" />
-      </div>
+  const getNavLinkClass = ({ isActive }: { isActive: boolean }) =>
+    `${styles.navLink} ${isActive ? styles.active : ""}`;
 
-      <div className={styles.center}>
+  return (
+    <header className={styles.container}>
+      <div className={styles.left}>
+        <Logotype size={LOGO_SIZE_TYPE.SM} />
+
         <div className={styles.searchBox}>
           <input
             type="text"
@@ -31,25 +34,25 @@ function Navbar() {
       <nav className={styles.right}>
         <ul className={styles.menu}>
           <li>
-            <NavLink to="/" end className={styles.navLink}>
+            <NavLink to="/" end className={getNavLinkClass}>
               Início
             </NavLink>
           </li>
 
           <li>
-            <NavLink to="/oportunidades" className={styles.navLink}>
+            <NavLink to="/oportunidades" className={getNavLinkClass}>
               Oportunidades
             </NavLink>
           </li>
 
           <li>
-            <NavLink to="/eventos" className={styles.navLink}>
+            <NavLink to="/eventos" className={getNavLinkClass}>
               Eventos
             </NavLink>
           </li>
 
           <li>
-            <NavLink to="/projetos" className={styles.navLink}>
+            <NavLink to="/projetos" className={getNavLinkClass}>
               Projetos
             </NavLink>
           </li>
@@ -65,4 +68,4 @@ function Navbar() {
   );
 }
 
-export default Navbar;
+export default Header;

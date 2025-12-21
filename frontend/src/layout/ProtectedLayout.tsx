@@ -1,6 +1,8 @@
 import { Outlet, Navigate } from "react-router-dom";
+
+import Header from "../components/Header/Header";
+
 import { useAuth } from "../auth/hooks/useAuth";
-import Navbar from "../components/Header/Navbar";
 
 function ProtectedLayout() {
   const { isAuthenticated } = useAuth();
@@ -11,7 +13,7 @@ function ProtectedLayout() {
 
   return (
     <>
-      <Navbar />
+      <Header />
       <Outlet />
     </>
   );
