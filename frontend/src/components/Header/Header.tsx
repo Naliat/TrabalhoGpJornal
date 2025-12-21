@@ -1,4 +1,4 @@
-import { Search } from "lucide-react";
+import { LogIn, Search } from "lucide-react";
 import { NavLink, useNavigate } from "react-router-dom";
 
 import Logotype from "../Logotype/Logotype";
@@ -60,6 +60,7 @@ function Header() {
 
         <div className={styles.loginArea}>
           <button className={styles.loginBtn} onClick={redirectToLogin}>
+            <LogIn size={16} />
             Entrar
           </button>
         </div>
