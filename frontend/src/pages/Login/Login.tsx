@@ -1,8 +1,11 @@
-import { useState } from "react";
-import styles from "./Login.module.css";
-import logo from "../../assets/logo_ufc_quixada.png";
 import { Link } from "react-router-dom";
 import { useLogin } from "./hooks/useLogin";
+
+import { useState } from "react";
+
+import styles from "./Login.module.css";
+import Logotype from "../../components/Logotype/Logotype";
+import { LOGO_SIZE_TYPE } from "../../types/enums/LogoSizeTypeEnum";
 
 function Login() {
   const [email, setEmail] = useState("");
@@ -11,14 +14,14 @@ function Login() {
   const {
     handleLogin,
     isLoading,
-    errorMessage,   
+    errorMessage,
   } = useLogin();
 
   return (
     <div className={styles.container}>
       <div className={styles.card}>
-        <img src={logo} alt="Logo" className={styles.logo} />
-
+        <Logotype size={LOGO_SIZE_TYPE.LG} />
+        
         <h2 className={styles.title}>Entrar</h2>
 
         <form className={styles.form}>

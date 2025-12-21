@@ -1,9 +1,8 @@
-import { Menu, Search } from "lucide-react";
-import styles from "./Navbar.module.css";
+import { Search } from "lucide-react";
+import { NavLink, useNavigate } from "react-router-dom";
 
-import logo from "../../assets/logo_ufc_quixada.png";
-import profile from "../../assets/profile.png";
-import { useNavigate } from "react-router-dom";
+import styles from "./Navbar.module.css";
+import Logotype from "../Logotype/Logotype";
 
 function Navbar() {
   const navigate = useNavigate();
@@ -15,32 +14,53 @@ function Navbar() {
   return (
     <header className={styles.navbar}>
       <div className={styles.left}>
-        <button className={styles.menuBtn}>
-          <Menu size={26} />
-        </button>
+        <Logotype size="sm" />
       </div>
 
       <div className={styles.center}>
-        <img src={logo} alt="Logo" className={styles.logo} />
-      </div>
-
-      <div className={styles.right}>
         <div className={styles.searchBox}>
           <input
             type="text"
-            placeholder="Buscar..."
+            placeholder="Buscar editais, moradia, eventos..."
             className={styles.searchInput}
           />
           <Search size={18} className={styles.searchIcon} />
         </div>
+      </div>
+
+      <nav className={styles.right}>
+        <ul className={styles.menu}>
+          <li>
+            <NavLink to="/" end className={styles.navLink}>
+              Início
+            </NavLink>
+          </li>
+
+          <li>
+            <NavLink to="/oportunidades" className={styles.navLink}>
+              Oportunidades
+            </NavLink>
+          </li>
+
+          <li>
+            <NavLink to="/eventos" className={styles.navLink}>
+              Eventos
+            </NavLink>
+          </li>
+
+          <li>
+            <NavLink to="/projetos" className={styles.navLink}>
+              Projetos
+            </NavLink>
+          </li>
+        </ul>
 
         <div className={styles.loginArea}>
           <button className={styles.loginBtn} onClick={redirectToLogin}>
             Entrar
           </button>
-          <img src={profile} alt="Profile" className={styles.profileImg} />
         </div>
-      </div>
+      </nav>
     </header>
   );
 }

@@ -1,10 +1,15 @@
 import { useState } from "react";
-import styles from "./Register.module.css";
-import logo from "../../assets/logo_ufc_quixada.png";
+
 import { Link } from "react-router-dom";
+
 import { useRegister } from "./hooks/useRegister";
+
 import { USER_TYPE, type UserType } from "../../types/enums/UserTypeEnum";
 import type { UserForm } from "../../types/user/domain/UserForm";
+
+import styles from "./Register.module.css";
+import Logotype from "../../components/Logotype/Logotype";
+import { LOGO_SIZE_TYPE } from "../../types/enums/LogoSizeTypeEnum";
 
 function Register() {
   const [formData, setFormData] = useState<UserForm>({
@@ -25,7 +30,7 @@ function Register() {
   return (
     <div className={styles.container}>
       <div className={styles.card}>
-        <img src={logo} alt="Logo" className={styles.logo} />
+        <Logotype size={LOGO_SIZE_TYPE.LG} />
 
         <h2 className={styles.title}>Criar conta</h2>
 
