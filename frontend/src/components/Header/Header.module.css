@@ -120,7 +120,6 @@
 .loginBtn:hover {
   color: #F5F5F5;
   background-color: #5A5A5A;
-  border-color: #F5F5F5;
 }
 
 @media (max-width: 900px) {

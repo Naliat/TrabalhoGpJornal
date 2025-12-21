@@ -1,77 +1,30 @@
-import { Link } from "react-router-dom";
-import { useLogin } from "./hooks/useLogin";
-
-import { useState } from "react";
-
-import styles from "./Login.module.css";
 import Logotype from "../../components/Logotype/Logotype";
+import LoginForm from "./components/LoginForm";
+import LoginInfoCard from "./components/LoginInfoCard";
 import { LOGO_SIZE_TYPE } from "../../types/enums/LogoSizeTypeEnum";
+import styles from "./Login.module.css";
 
 function Login() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-
-  const {
-    handleLogin,
-    isLoading,
-    errorMessage,
-  } = useLogin();
-
   return (
     <div className={styles.container}>
-      <div className={styles.card}>
-        <Logotype size={LOGO_SIZE_TYPE.LG} />
-        
-        <h2 className={styles.title}>Entrar</h2>
+      <div className={styles.wrapper}>
+        <header className={styles.header}>
+          <Logotype size={LOGO_SIZE_TYPE.LG} />
+        </header>
 
-        <form className={styles.form}>
-          <div className={styles.inputGroup}>
-            <label>Email</label>
-            <input
-              type="email"
-              placeholder="Digite seu email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-              disabled={isLoading}
-            />
-          </div>
+        <main className={styles.cards}>
+          <section className={`${styles.card} ${styles.cardInfo}`}>
+            <LoginInfoCard />
+          </section>
 
-          <div className={styles.inputGroup}>
-            <label>Senha</label>
-            <input
-              type="password"
-              placeholder="Digite sua senha"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-              disabled={isLoading}
-            />
-          </div>
+          <section className={`${styles.card} ${styles.cardForm}`}>
+            <LoginForm />
+          </section>
+        </main>
 
-          {errorMessage && (
-            <p className={styles.errorMessage}>
-              {errorMessage}
-            </p>
-          )}
-
-          <button
-            type="button"
-            className={styles.loginBtn}
-            disabled={isLoading}
-            onClick={() => handleLogin(email, password)}
-          >
-            {isLoading ? "Aguarde..." : "Entrar"}
-          </button>
-        </form>
-
-        <p className={styles.registerLink}>
-          Não tem conta? <Link to="/registro">Registre-se</Link>
-        </p>
-
-        <p className={styles.backHome}>
-          <Link to="/">← Voltar para a página inicial</Link>
-        </p>
+        <footer className={styles.footer}>
+          © 2025 Jornal UFC Quixadá. Todos os direitos reservados.
+        </footer>
       </div>
     </div>
   );
