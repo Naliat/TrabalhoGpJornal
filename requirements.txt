@@ -6,6 +6,7 @@ click==8.3.1
 cryptography==46.0.3
 dnspython==2.8.0
 ecdsa==0.19.1
+email-validator==2.3.0
 fastapi==0.122.0
 greenlet==3.2.4
 h11==0.16.0
@@ -21,6 +22,7 @@ pydantic-settings==2.12.0
 pydantic_core==2.41.5
 pymongo==4.15.4
 python-dotenv==1.2.1
+python-jose==3.5.0
 python-multipart==0.0.20
 PyYAML==6.0.3
 rsa==4.9.1
