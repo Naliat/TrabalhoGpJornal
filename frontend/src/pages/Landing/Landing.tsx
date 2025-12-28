@@ -1,7 +1,13 @@
 import { useState } from "react";
-import { Clock } from "lucide-react";
 import { newsMock } from "../../mocks/newsMock";
+
+
+import MenuCard from "./components/MenuCard";
+import BusCard from "./components/BusCard";
+import NewsGrid from "./components/NewsGrid";
+
 import styles from "./Landing.module.css";
+import NewsCard from "./components/NewsCard";
 
 const opportunityTags = [
   "todas",
@@ -19,19 +25,11 @@ const academicTags = [
   "empreendedorismo",
 ];
 
-function formatDate(date: string) {
-  return new Date(date).toLocaleDateString("pt-BR", {
-    day: "numeric",
-    month: "long",
-    year: "numeric",
-  });
-}
-
 function Landing() {
   const [opportunityFilter, setOpportunityFilter] = useState("todas");
   const [academicFilter, setAcademicFilter] = useState("todas");
 
-  const featured = newsMock.slice(0, 3);
+  const featured = newsMock[0];
 
   const opportunities = newsMock
     .filter((n) =>
@@ -58,53 +56,9 @@ function Landing() {
       <h1 className={styles.title}>Informações Relevantes</h1>
 
       <section className={styles.featuredSection}>
-        <div className={styles.featuredMain}>
-          <img src={featured[0].image} alt={featured[0].title} />
-
-          <div className={styles.textBlock}>
-            <div className={styles.tags}>
-              {featured[0].tags.map((tag) => (
-                <span key={tag}>{tag}</span>
-              ))}
-            </div>
-
-            <h2 className={styles.featuredTitle}>{featured[0].title}</h2>
-
-            <p className={styles.featuredDescription}>
-              {featured[0].description}
-            </p>
-
-            <div className={styles.date}>
-              <Clock size={14} />
-              <span>Até {formatDate(featured[0].date)}</span>
-            </div>
-          </div>
-        </div>
-
-        <div className={styles.featuredSide}>
-          {featured.slice(1).map((news) => (
-            <div key={news.id} className={styles.featuredSmall}>
-              <img src={news.image} alt={news.title} />
-
-              <div className={styles.textBlock}>
-                <div className={styles.tags}>
-                  {news.tags.map((tag) => (
-                    <span key={tag}>{tag}</span>
-                  ))}
-                </div>
-
-                <h3>{news.title}</h3>
-
-                <p className={styles.description}>{news.description}</p>
-
-                <div className={styles.date}>
-                  <Clock size={13} />
-                  <span>Até {formatDate(news.date)}</span>
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
+        <NewsCard {...featured} />
+        <BusCard />
+        <MenuCard />
       </section>
 
       <section className={styles.block}>
@@ -124,30 +78,7 @@ function Landing() {
           ))}
         </div>
 
-        <div className={styles.grid}>
-          {opportunities.map((news) => (
-            <div key={news.id} className={styles.card}>
-              <img src={news.image} alt={news.title} />
-
-              <div className={styles.cardContent}>
-                <div className={styles.tags}>
-                  {news.tags.map((tag) => (
-                    <span key={tag}>{tag}</span>
-                  ))}
-                </div>
-
-                <h4>{news.title}</h4>
-
-                <p className={styles.description}>{news.description}</p>
-
-                <div className={styles.date}>
-                  <Clock size={13} />
-                  <span>Até {formatDate(news.date)}</span>
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
+        <NewsGrid data={opportunities} />
       </section>
 
       <section className={styles.block}>
@@ -167,30 +98,7 @@ function Landing() {
           ))}
         </div>
 
-        <div className={styles.grid}>
-          {academics.map((news) => (
-            <div key={news.id} className={styles.card}>
-              <img src={news.image} alt={news.title} />
-
-              <div className={styles.cardContent}>
-                <div className={styles.tags}>
-                  {news.tags.map((tag) => (
-                    <span key={tag}>{tag}</span>
-                  ))}
-                </div>
-
-                <h4>{news.title}</h4>
-
-                <p className={styles.description}>{news.description}</p>
-
-                <div className={styles.date}>
-                  <Clock size={13} />
-                  <span>Até {formatDate(news.date)}</span>
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
+        <NewsGrid data={academics} />
       </section>
     </div>
   );

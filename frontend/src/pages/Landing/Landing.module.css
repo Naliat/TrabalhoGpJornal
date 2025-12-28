@@ -13,12 +13,14 @@
 
 .featuredSection {
   display: grid;
-  grid-template-columns: 2fr 1fr;
+  grid-template-columns: 2.4fr 1fr;
+  grid-template-rows: auto auto;
   gap: 22px;
   margin-bottom: 60px;
 }
 
 .featuredMain {
+  grid-row: span 2;
   display: flex;
   flex-direction: column;
   background: #fff;
@@ -28,7 +30,7 @@
 }
 
 .featuredMain img {
-  height: 65%;
+  height: 60%;
   width: 100%;
   object-fit: cover;
 }
@@ -43,25 +45,120 @@
   color: #444;
 }
 
-.featuredSide {
+.infoCard {
+  background: #fff;
+  border-radius: 16px;
+  padding: 18px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.14);
   display: flex;
   flex-direction: column;
+  gap: 14px;
+}
+
+.infoHeader {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.infoHeader h3 {
+  font-size: 1.05rem;
+  font-weight: 700;
+}
+
+.iconCircle {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: #e0f2fe;
+  color: #0369a1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.busCard {
+  padding: 14px 16px;
+  justify-content: space-between;
+}
+
+.busSchedule {
+  background: #f9fafb;
+  border-radius: 12px;
+  padding: 12px;
+}
+
+.busHeaderRow {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: #6b7280;
+  text-transform: uppercase;
+  text-align: center;
+}
+
+.busTimeRow {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  margin-top: 6px;
+  text-align: center;
+}
+
+.busTimeRow strong {
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: #111827;
+}
+
+.menuCard {
+  padding: 22px;
+  gap: 16px;
+}
+
+.menuDate {
+  font-size: 0.75rem;
+  color: #6b7280;
+}
+
+.menuGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
   gap: 18px;
 }
 
-.featuredSmall {
+.menuSection {
   display: flex;
-  gap: 14px;
-  padding: 14px;
-  background: #fff;
+  flex-direction: column;
+  gap: 6px;
+  background: #f9fafb;
+  padding: 18px;
   border-radius: 14px;
-  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.12);
+  font-size: 0.85rem;
 }
 
-.featuredSmall img {
-  width: 45%;
-  border-radius: 12px;
-  object-fit: cover;
+.menuSection h4 {
+  font-size: 1.15rem;
+  font-weight: 800;
+  margin-bottom: 4px;
+}
+
+.menuType {
+  font-weight: 700;
+  color: #374151;
+  margin-top: 6px;
+}
+
+.menuVeg {
+  margin-top: 8px;
+  font-weight: 700;
+  color: #15803d;
+}
+
+.menuJuice {
+  margin-top: 10px;
+  font-weight: 700;
+  color: #0284c7;
 }
 
 .textBlock {
@@ -69,6 +166,30 @@
   flex-direction: column;
   gap: 8px;
   padding: 14px;
+}
+
+.tags {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.tags span {
+  background: #e0f2fe;
+  color: #0369a1;
+  padding: 4px 10px;
+  border-radius: 10px;
+  font-size: 0.65rem;
+  text-transform: uppercase;
+}
+
+.date {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.75rem;
+  color: #6b7280;
+  margin-top: auto;
 }
 
 .sectionTitle {
@@ -91,7 +212,6 @@
   background: #f9fafb;
   cursor: pointer;
   font-size: 0.8rem;
-  text-transform: capitalize;
 }
 
 .filters .active {
@@ -135,36 +255,25 @@
   flex-grow: 1;
 }
 
-.tags {
-  display: flex;
-  gap: 6px;
-  flex-wrap: wrap;
-}
-
-.tags span {
-  background: #e0f2fe;
-  color: #0369a1;
-  padding: 4px 10px;
-  border-radius: 10px;
-  font-size: 0.65rem;
-  text-transform: uppercase;
-}
-
-.date {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  font-size: 0.75rem;
-  color: #6b7280;
-  margin-top: auto;
-}
-
 .block {
   margin-bottom: 60px;
 }
 
 @media (max-width: 900px) {
   .featuredSection {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto;
+  }
+
+  .featuredMain {
+    grid-row: span 1;
+  }
+
+  .menuCard {
+    grid-row: span 1;
+  }
+
+  .menuGrid {
     grid-template-columns: 1fr;
   }
 
