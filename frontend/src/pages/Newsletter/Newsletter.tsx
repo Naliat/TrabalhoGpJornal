@@ -12,7 +12,6 @@ function Newsletter() {
   const [isLoading, setIsLoading] = useState(false);
   const [successMessage, setSuccessMessage] = useState("");
 
-  // Dpois mudar isso aqui para a integração com o backend
   function handleSubscribe() {
     setIsLoading(true);
     setTimeout(() => {

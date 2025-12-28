@@ -50,7 +50,7 @@ function LoginForm() {
         </div>
 
         <div className={styles.forgotPasswordWrapper}>
-          <Link to="/esqueceu-senha" className={styles.forgotPassword}>
+          <Link to="/recuperar-senha" className={styles.forgotPassword}>
             Esqueceu a senha?
           </Link>
         </div>
