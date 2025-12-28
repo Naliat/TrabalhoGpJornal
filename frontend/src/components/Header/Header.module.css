@@ -1,23 +1,29 @@
-.container {
-  max-width: 1200px;
+.header {
   height: 76px;
-  margin: 0 auto;
-  padding: 0 14px;
   background-color: #ffffff;
   border-bottom: 1px solid #e5e5e5;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
 
   position: sticky;
   top: 0;
   z-index: 100;
 }
 
+.content {
+  max-width: 1200px;
+  height: 100%;
+  margin: 0 auto;
+  padding: 0 32px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-sizing: border-box;
+}
+
 .left {
   display: flex;
   align-items: center;
-  gap: 14px;
+  gap: 16px;
   flex: 1;
 }
 
@@ -36,15 +42,8 @@
   border: 1px solid #d1d5db;
   border-radius: 8px;
   font-size: 14px;
-  font-weight: 400;
-  color: #999999;
+  color: #6b7280;
   outline: none;
-  transition: border-color 0.2s, box-shadow 0.2s;
-}
-
-.searchInput::placeholder {
-  color: #999999;
-  font-weight: 400;
 }
 
 .searchInput:focus {
@@ -62,14 +61,14 @@
 .right {
   display: flex;
   align-items: center;
-  gap: 14px;
+  gap: 16px;
 }
 
 .menu {
   display: flex;
   align-items: center;
-  gap: 2px;
   list-style: none;
+  gap: 4px;
   margin: 0;
   padding: 0;
 }
@@ -83,8 +82,7 @@
   letter-spacing: 0.08em;
   padding: 7px 12px;
   border-radius: 8px;
-  position: relative;
-  transition: background-color 0.2s ease, color 0.2s ease;
+  transition: background-color 0.2s, color 0.2s;
 }
 
 .navLink:hover {
@@ -93,7 +91,6 @@
 }
 
 .navLink.active {
-  background-color: transparent;
   color: #1976d2;
 }
 
@@ -108,18 +105,17 @@
   gap: 8px;
   background-color: #ffffff;
   color: #2c2c2c;
-  border: 1px solid #2C2C2C;
+  border: 1px solid #2c2c2c;
   padding: 8px 14px;
   border-radius: 8px;
   font-size: 13px;
   font-weight: 600;
   cursor: pointer;
-  transition: background-color 0.2s, border-color 0.2s;
 }
 
 .loginBtn:hover {
-  color: #F5F5F5;
-  background-color: #5A5A5A;
+  background-color: #5a5a5a;
+  color: #f5f5f5;
 }
 
 @media (max-width: 900px) {

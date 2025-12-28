@@ -2,7 +2,6 @@ import { useState } from "react";
 import { Clock } from "lucide-react";
 import { newsMock } from "../../mocks/newsMock";
 import styles from "./Landing.module.css";
-import Footer from "../../components/Footer/Footer";
 
 const opportunityTags = [
   "todas",
@@ -193,8 +192,6 @@ function Landing() {
           ))}
         </div>
       </section>
-
-      <Footer />
     </div>
   );
 }
