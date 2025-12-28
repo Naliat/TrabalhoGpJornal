@@ -27,7 +27,7 @@ export function useLogin() {
         return;
       }
 
-      setErrorMessage("Erro inesperado ao realizar login.");
+      setErrorMessage("Erro inesperado ao realizar o login.");
     } finally {
       setIsLoading(false);
     }

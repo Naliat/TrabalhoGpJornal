@@ -1,6 +1,5 @@
 import Logotype from "../../components/Logotype/Logotype";
 import LoginForm from "./components/LoginForm";
-import LoginInfoCard from "./components/LoginInfoCard";
 import SimpleFooter from "../../components/Footer/SimpleFooter";
 
 import { LOGO_SIZE_TYPE } from "../../types/enums/LogoSizeTypeEnum";
@@ -16,11 +15,14 @@ function Login() {
         </header>
 
         <main className={styles.cards}>
-          <section className={`${styles.card} ${styles.cardInfo}`}>
-            <LoginInfoCard />
+          <section className={styles.text}>
+            <h2 className={styles.title}>Fazer Login</h2>
+            <h2 className={styles.subtitle}>
+              Entre com suas credenciais institucionais
+            </h2>
           </section>
 
-          <section className={`${styles.card} ${styles.cardForm}`}>
+          <section className={`${styles.cardForm}`}>
             <LoginForm />
           </section>
         </main>
