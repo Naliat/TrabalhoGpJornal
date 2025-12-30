@@ -18,7 +18,7 @@ async def lifespan(app: FastAPI):
     
     if settings.MONGO_DB_URL and settings.MONGO_DB_NAME:
         try:
-            mongodb_client = AsyncIOMotorClient(settings.MONGO_DB_URL)
+            mongodb_client = AsyncIOMotorClient(settings.MONGO_DB_URL, serverSelectionTimeoutMS=5000)
             app.state.mongodb_client = mongodb_client
             await app.state.mongodb_client.admin.command('ping')
             app.state.database = mongodb_client[settings.MONGO_DB_NAME]
@@ -64,6 +64,7 @@ def create_app() -> FastAPI:
     application.add_middleware(LoggingMiddleware)
 
     application.include_router(auth.router, tags=["Autenticação"])
+    application.include_router(users.router, tags=["Usuários"])
     application.include_router(newsletter.router, tags=["Newsletter"])
     application.include_router(noticias.router, tags=["Notícias"])  
     application.include_router(editais.router, tags=["Editais"])
