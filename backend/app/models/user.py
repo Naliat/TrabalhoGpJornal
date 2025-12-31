@@ -1,6 +1,7 @@
 from pydantic import BaseModel, Field, EmailStr
 from typing import Optional
 from .enum.type_user import UserType
+from datetime import datetime
 
 
 # --- Esquemas de Usuários ---
@@ -15,10 +16,10 @@ class UserCreate(UserBase):
     
 class UserResponse(UserBase):
     id: str
+    data_criacao: Optional[datetime] = None
 
 class UserUpdate(BaseModel):
     username: Optional[str] = Field(None, min_length=3)
     matricula: Optional[str] = None
     email: Optional[EmailStr] = None
-    password: Optional[str] = Field(None, min_length=8)
     user_type: Optional[UserType] = None

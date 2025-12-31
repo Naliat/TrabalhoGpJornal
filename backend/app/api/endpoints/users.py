@@ -5,7 +5,6 @@ from ...models.user import UserCreate, UserResponse, UserUpdate
 from ..endpoints.auth import get_current_user, require_role
 from typing import Dict, Optional, Any, List
 
-#ajustar depois-
 from ...crud.crud_users import CRUDUser
 
 router = APIRouter(
@@ -37,26 +36,18 @@ def is_valid_ufc_email(email: str) -> bool:
 @router.get("/", response_model=List[UserResponse])
 async def list_all_users(
     current_user: UserResponse = Depends(get_current_user),
-    # current_user: UserResponse = Depends(require_role("ADM", "PROFESSOR")),
-    user_crud: CRUDUser = Depends(get_user_crud)
+    user_crud: CRUDUser = Depends(get_user_crud),
+    skip: int = 0, limit: int = 20
     ):
     if current_user.user_type not in ["ADM", "PROFESSOR"]:
         raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Acesso negado.")
-    try:
-        return await user_crud.get_all_users()
-    except HTTPException:
-        raise
-    except Exception as e:
-        raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=f"Erro: {e}")
+
+    return await user_crud.get_all_users(skip=skip, limit=limit)
 
 @router.get("/{user_id}", response_model=UserResponse)
 async def get_user(user_id: str, user_crud: CRUDUser = Depends(get_user_crud)):
-    try:
-        user = await user_crud.get_user_by_id(user_id)
-    except HTTPException:
-        raise
-    except Exception as e:
-        raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=f"Erro: {e}")
+    
+    user = await user_crud.get_user_by_id(user_id)
 
     if not user:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Usuário não encontrado.")
@@ -64,53 +55,30 @@ async def get_user(user_id: str, user_crud: CRUDUser = Depends(get_user_crud)):
 
 @router.post("/register", status_code=status.HTTP_201_CREATED)
 async def create_user(user: UserCreate, user_crud: CRUDUser = Depends(get_user_crud)):
-    username = user.username
     
     if not is_valid_ufc_email(user.email):
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
             detail="O registro requer um endereço de e-mail válido com um dos seguintes domínios: @gmail.com, @alu.ufc.br ou @ufc.br."
         )
+    user.password = get_password_hash(user.password)
+    new_user = await user_crud.create_user(user)
     
-    user_data = {
-        "username": username,
-        "hashed_password": get_password_hash(user.password) 
-    }
-    
-    try:
-        new_user = await user_crud.create_user(user_data)
-    except HTTPException:
-        raise
-    except Exception as e:
-        raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=f"Erro: {e}")
-    
-    if new_user is None:
-        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Nome de usuário já registrado.")
-    
-    return {"message": "Usuário registrado com sucesso!", "username": new_user['username']}
+    return {"message": "Usuário registrado com sucesso!", "user": new_user}
 
-@router.put("/{user_id}", response_model=UserResponse)
+@router.put("/{user_id}", status_code=status.HTTP_200_OK)
 async def update_user(user_id: str, update_data: UserUpdate, user_crud: CRUDUser = Depends(get_user_crud)):
-    try:
-        updated_user = await user_crud.update_user(user_id, update_data)
-    except HTTPException:
-        raise
-    except Exception as e:
-        raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=f"Erro: {e}")
+    updated_user = await user_crud.update_user(user_id, update_data)
 
     if not updated_user:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Usuário não encontrado ou ID inválido.")
-    return updated_user
+    return {"message": "Usuário atualizado com sucesso", "user": updated_user}
 
-@router.delete("/{user_id}", status_code=status.HTTP_204_NO_CONTENT)
+@router.delete("/{user_id}", status_code=status.HTTP_200_OK)
 async def delete_user(user_id: str, user_crud: CRUDUser = Depends(get_user_crud)):
-    try:
-        deleted = await user_crud.delete_user(user_id)
-    except HTTPException:
-        raise
-    except Exception as e:
-        raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=f"Erro: {e}")
-
+    deleted = await user_crud.delete_user(user_id)
+    
     if not deleted:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Usuário não encontrado ou ID inválido.")
-    return {}
+    
+    return {"message": "Usuário removido com sucesso"}
