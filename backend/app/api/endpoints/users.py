@@ -64,21 +64,15 @@ async def get_user(user_id: str, user_crud: CRUDUser = Depends(get_user_crud)):
 
 @router.post("/register", status_code=status.HTTP_201_CREATED)
 async def create_user(user: UserCreate, user_crud: CRUDUser = Depends(get_user_crud)):
-    username = user.username
     
     if not is_valid_ufc_email(user.email):
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
             detail="O registro requer um endereço de e-mail válido com um dos seguintes domínios: @gmail.com, @alu.ufc.br ou @ufc.br."
         )
-    
-    user_data = {
-        "username": username,
-        "hashed_password": get_password_hash(user.password) 
-    }
-    
+    user.password = get_password_hash(user.password)
     try:
-        new_user = await user_crud.create_user(user_data)
+        new_user = await user_crud.create_user(user)
     except HTTPException:
         raise
     except Exception as e:
@@ -87,7 +81,7 @@ async def create_user(user: UserCreate, user_crud: CRUDUser = Depends(get_user_c
     if new_user is None:
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Nome de usuário já registrado.")
     
-    return {"message": "Usuário registrado com sucesso!", "username": new_user['username']}
+    return {"message": "Usuário registrado com sucesso!", "user": new_user}
 
 @router.put("/{user_id}", response_model=UserResponse)
 async def update_user(user_id: str, update_data: UserUpdate, user_crud: CRUDUser = Depends(get_user_crud)):
