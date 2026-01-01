@@ -44,6 +44,18 @@ async def list_all_users(
 
     return await user_crud.get_all_users(skip=skip, limit=limit)
 
+@router.get("/type/{user_type}", response_model=List[UserResponse])
+async def list_users_by_type(
+    user_type: str,
+    current_user: UserResponse = Depends(get_current_user),
+    user_crud: CRUDUser = Depends(get_user_crud),
+    skip: int = 0, limit: int = 20
+    ):
+    if current_user.user_type not in ["ADM", "PROFESSOR"]:
+        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Acesso negado.")
+
+    return await user_crud.get_users_by_type(user_type=user_type.upper(), skip=skip, limit=limit)
+
 @router.get("/{user_id}", response_model=UserResponse)
 async def get_user(user_id: str, user_crud: CRUDUser = Depends(get_user_crud)):
     
