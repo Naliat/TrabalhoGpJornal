@@ -32,23 +32,6 @@ class CRUDUser:
     async def create_user(self, user_in: UserCreate) -> UserResponse:
         self.is_db_active()
         
-        # # Verifica se já existe e-mail
-        # existing_user = await self.collection.find_one(
-        #     {"email": user_in.email}
-        # )
-        # if existing_user:
-        #     raise HTTPException(
-        #         status_code=status.HTTP_400_BAD_REQUEST,
-        #         detail="E-mail já cadastrado"
-        #     )
-    
-        # user_dict = user_in.model_dump()
-        # user_dict["data_criacao"] = datetime.now(timezone.utc)
-        
-        # result = await self.collection.insert_one(user_dict)
-        
-        # user_dict["id"] = str(result.inserted_id)
-        # return UserResponse(**user_dict)
         try:
             if await self.collection.find_one({"email": user_in.email}):
                 raise HTTPException(
@@ -97,6 +80,18 @@ class CRUDUser:
         users_cursor = self.collection.find().skip(skip).limit(limit)
         lista_users = []
         
+        async for user in users_cursor:
+            user["id"] = str(user["_id"])
+            lista_users.append(self._normalize_user(user))
+            
+        return lista_users
+
+    async def get_users_by_type(self, user_type: str, skip: int = 0, limit: int = 20) -> List[UserResponse]:
+        self.is_db_active()
+        query = {"$or": [{"user_type": user_type}, {"papel": user_type}]}
+        users_cursor = self.collection.find(query).skip(skip).limit(limit)
+        
+        lista_users = []
         async for user in users_cursor:
             user["id"] = str(user["_id"])
             lista_users.append(self._normalize_user(user))
