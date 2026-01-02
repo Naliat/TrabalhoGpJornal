@@ -1,12 +1,13 @@
 import { useEffect, useState } from "react";
 import { AuthContext } from "./context/AuthContext";
 import type { AuthContextType } from "./types/AuthContextType";
-import type { UserResponseDTO } from "../types/user/dto/UserResponseDTO";
 import { getUserByToken } from "../api/service/user/getUserByToken";
+import { toUserFromDTO } from "../mappers/user/toUserFromDTO";
+import type { User } from "../types/user/domain/User";
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [token, setToken] = useState<string | null>(null);
-  const [user, setUser] = useState<UserResponseDTO | null>(null);
+  const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -31,7 +32,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
       try {
         const userData = await getUserByToken(token);
-        setUser(userData);
+        const user = toUserFromDTO(userData);
+        setUser(user);
       } catch {
         localStorage.removeItem("token");
         setToken(null);
