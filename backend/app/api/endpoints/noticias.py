@@ -28,9 +28,12 @@ async def criar_noticia(
 
 @router.get("/", response_model=List[Noticia])
 async def listar_noticias(
+    categoria: Optional[str] = None,
+    skip: int = 0,
+    limit: int = 20,
     noticia_crud: CRUDNoticia = Depends(get_noticia_crud)
 ):
-    return await noticia_crud.get_all_noticias() 
+    return await noticia_crud.get_all_noticias(skip=skip, limit=limit, categoria=categoria) 
 
 @router.get("/{noticia_id}", response_model=Noticia)
 async def buscar_noticia(
