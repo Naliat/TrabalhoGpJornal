@@ -52,9 +52,16 @@ class CRUDNoticia:
             return Noticia(**document)
         return None
 
-    async def get_all_noticias(self, skip: int = 0, limit: int = 20) -> List[Noticia]:
+   
+    async def get_all_noticias(self, skip: int = 0, limit: int = 20, categoria: Optional[str] = None) -> List[Noticia]:
         self.is_db_active()
-        noticias_cursor = self.collection.find().sort("data_publicacao", -1).skip(skip).limit(limit)
+        
+      
+        filtro = {}
+        if categoria:
+            filtro["categoria"] = categoria
+
+        noticias_cursor = self.collection.find(filtro).sort("data_publicacao", -1).skip(skip).limit(limit)
         lista_noticias = []
         
         async for noticia in noticias_cursor:
