@@ -7,8 +7,6 @@ import { parseErrorResponse } from "../../../utils/parseErrorResponse";
 export async function registerUser(data: UserCreateDTO): Promise<UserResponseDTO> {
     const url = `${ENV.API_BASE_URL}/auth/register`;
 
-    console.log(data);
-
     const response = await fetch(url, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
