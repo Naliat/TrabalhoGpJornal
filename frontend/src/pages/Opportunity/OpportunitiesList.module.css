@@ -1,0 +1,159 @@
+.container {
+  max-width: 1150px;
+  margin: 0 auto;
+  padding: 24px;
+}
+
+.title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 2rem;
+  font-weight: 800;
+  margin-bottom: 28px;
+  text-transform: uppercase;
+}
+
+/* 🔍 FILTROS */
+.filters {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 26px;
+  flex-wrap: wrap;
+}
+
+.searchBox,
+.filterBox {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border: 1px solid #d1d5db;
+  background: #f9fafb;
+  padding: 10px 14px;
+  border-radius: 8px;
+}
+
+.searchBox {
+  flex: 1;
+}
+
+.searchBox input,
+.filterBox select {
+  border: none;
+  outline: none;
+  width: 100%;
+  background: transparent;
+  font-size: 0.9rem;
+}
+
+/* 📋 LISTA */
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.card {
+  display: flex;
+  gap: 18px;
+  background: #fff;
+  border-radius: 14px;
+  padding: 18px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
+  align-items: center;
+}
+
+.cardContent {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.cardTitle {
+  font-size: 1.05rem;
+  font-weight: 800;
+}
+
+.meta {
+  display: flex;
+  gap: 18px;
+  font-size: 0.85rem;
+  color: #6b7280;
+}
+
+.meta span {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* 🏷 BADGES */
+.badge {
+  min-width: 100px;
+  padding: 6px 12px;
+  border-radius: 10px;
+  font-size: 0.75rem;
+  font-weight: 800;
+  text-align: center;
+  color: #fff;
+  text-transform: uppercase;
+}
+
+.bolsas-remuneradas {
+  background: #2563eb;
+}
+
+.estagio {
+  background: #16a34a;
+}
+
+.monitoria {
+  background: #9333ea;
+}
+
+.voluntario {
+  background: #f97316;
+}
+
+/* 🔢 PAGINAÇÃO */
+.pagination {
+  margin-top: 32px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 18px;
+}
+
+.pagination button {
+  padding: 8px 16px;
+  border-radius: 8px;
+  border: 1px solid #d1d5db;
+  background: #fff;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.pagination button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.empty {
+  text-align: center;
+  margin-top: 40px;
+  color: #6b7280;
+}
+
+/* 📱 RESPONSIVO */
+@media (max-width: 768px) {
+  .card {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .meta {
+    flex-direction: column;
+    gap: 6px;
+  }
+}
