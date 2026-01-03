@@ -10,6 +10,7 @@ import Register from "../pages/Register/Register";
 import Landing from "../pages/Landing/Landing";
 import Home from "../pages/Home/Home";
 import OpportunitiesList from "../pages/Opportunity/Opportunity";
+import OpportunityDetails from "../pages/Opportunity/subpages/OpportunityDetails/OpportunityDetails";
 
 
 function AppRouter() {
@@ -24,6 +25,7 @@ function AppRouter() {
         <Route element={<PublicLayout />}>
           <Route path="/" element={<Landing />} />
           <Route path="/oportunidades" element={<OpportunitiesList />} />
+          <Route path="/oportunidades/:id" element={<OpportunityDetails />} />
         </Route>
 
         <Route element={<ProtectedLayout />}>

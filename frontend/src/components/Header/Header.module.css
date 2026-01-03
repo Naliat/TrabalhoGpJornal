@@ -85,13 +85,13 @@
   transition: background-color 0.2s, color 0.2s;
 }
 
-.navLink:hover {
-  background-color: #1976d2;
+.navLink:not(.active):hover {
+  background-color: #0284C7;
   color: #ffffff;
 }
 
 .navLink.active {
-  color: #1976d2;
+  color: #0284C7;
 }
 
 .loginArea {
