@@ -30,7 +30,7 @@
   border: 1px solid #d1d5db;
   background: #f9fafb;
   padding: 10px 14px;
-  border-radius: 8px;
+  border-radius: 10px;
 }
 
 .searchBox {
@@ -50,75 +50,69 @@
 .list {
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 18px;
 }
 
 .card {
-  display: flex;
-  gap: 18px;
   background: #fff;
-  border-radius: 14px;
-  padding: 18px;
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
-  align-items: center;
+  border-radius: 16px;
+  padding: 22px;
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.12);
 }
 
-.cardContent {
-  flex: 1;
+.cardHeader {
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 10px;
 }
 
 .cardTitle {
-  font-size: 1.05rem;
+  font-size: 1.1rem;
   font-weight: 800;
 }
 
-.meta {
-  display: flex;
-  gap: 18px;
-  font-size: 0.85rem;
-  color: #6b7280;
+.description {
+  font-size: 0.9rem;
+  color: #4b5563;
+  line-height: 1.4;
 }
 
-.meta span {
+/* 🏷 TAGS */
+.tags {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 6px;
+}
+
+.typeTag,
+.valueTag {
   display: flex;
   align-items: center;
   gap: 6px;
-}
-
-/* 🏷 BADGES */
-.badge {
-  min-width: 100px;
+  background: #e0f2fe;
+  color: #0369a1;
   padding: 6px 12px;
-  border-radius: 10px;
+  border-radius: 999px;
   font-size: 0.75rem;
-  font-weight: 800;
-  text-align: center;
-  color: #fff;
-  text-transform: uppercase;
+  font-weight: 700;
 }
 
-.bolsas-remuneradas {
-  background: #2563eb;
-}
-
-.estagio {
-  background: #16a34a;
-}
-
-.monitoria {
-  background: #9333ea;
-}
-
-.voluntario {
-  background: #f97316;
+.deadlineTag {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: #fee2e2;
+  color: #b91c1c;
+  padding: 6px 12px;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 700;
 }
 
 /* 🔢 PAGINAÇÃO */
 .pagination {
-  margin-top: 32px;
+  margin-top: 34px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -126,8 +120,8 @@
 }
 
 .pagination button {
-  padding: 8px 16px;
-  border-radius: 8px;
+  padding: 8px 18px;
+  border-radius: 10px;
   border: 1px solid #d1d5db;
   background: #fff;
   cursor: pointer;
@@ -147,13 +141,7 @@
 
 /* 📱 RESPONSIVO */
 @media (max-width: 768px) {
-  .card {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-
-  .meta {
-    flex-direction: column;
+  .tags {
     gap: 6px;
   }
 }

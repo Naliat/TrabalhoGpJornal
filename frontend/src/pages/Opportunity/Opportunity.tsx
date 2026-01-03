@@ -14,7 +14,7 @@ import {
 
 import styles from "./OpportunitiesList.module.css";
 
-const ITEMS_PER_PAGE = 5;
+const ITEMS_PER_PAGE = 10;
 
 const typeLabelMap: Record<OpportunityType, string> = {
   "bolsas-remuneradas": "Bolsa",
@@ -98,31 +98,34 @@ function OpportunitiesList() {
       <div className={styles.list}>
         {paginatedOpportunities.map((op) => (
           <div key={op.id} className={styles.card}>
-            <span
-              className={`${styles.badge} ${styles[op.tipo]}`}
-            >
-              {typeLabelMap[op.tipo]}
-            </span>
-
-            <div className={styles.cardContent}>
+            <div className={styles.cardHeader}>
               <strong className={styles.cardTitle}>
                 {op.title}
               </strong>
 
-              <div className={styles.meta}>
-                <span>
+              <p className={styles.description}>
+                {op.descricao ??
+                  "Oportunidade acadêmica destinada a estudantes interessados em desenvolvimento, pesquisa e participação institucional."}
+              </p>
+
+              <div className={styles.tags}>
+                <span className={styles.typeTag}>
+                  {typeLabelMap[op.tipo]}
+                </span>
+
+                {op.valor > 0 && (
+                  <span className={styles.valueTag}>
+                    <Wallet size={14} />
+                    R$ {op.valor.toFixed(2)}
+                  </span>
+                )}
+
+                <span className={styles.deadlineTag}>
                   <Calendar size={14} />
                   Inscrição até{" "}
                   {new Date(op.prazoInscricao).toLocaleDateString(
                     "pt-BR"
                   )}
-                </span>
-
-                <span>
-                  <Wallet size={14} />
-                  {op.valor === 0
-                    ? "Voluntário"
-                    : `R$ ${op.valor.toFixed(2)}`}
                 </span>
               </div>
             </div>
