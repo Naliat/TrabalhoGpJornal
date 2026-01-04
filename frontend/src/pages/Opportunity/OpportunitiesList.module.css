@@ -4,6 +4,30 @@
   padding: 24px;
 }
 
+.backHome {
+  margin-bottom: 18px;
+  font-size: 0.85rem;
+}
+
+.backHome a {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: #0284C7;
+  font-weight: 600;
+  text-decoration: none;
+  padding: 6px 10px;
+  border-radius: 8px;
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease;
+}
+
+.backHome a:hover {
+  background-color: #e0f2fe;
+  color: #075985;
+}
+
 .title {
   display: flex;
   align-items: center;

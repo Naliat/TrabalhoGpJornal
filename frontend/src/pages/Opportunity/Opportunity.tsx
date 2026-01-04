@@ -8,6 +8,7 @@ import {
 
 import styles from "./OpportunitiesList.module.css";
 import OpportunityCard from "./components/OpportunityCard";
+import { Link } from "react-router-dom";
 
 const ITEMS_PER_PAGE = 10;
 
@@ -36,6 +37,10 @@ function OpportunitiesList() {
 
   return (
     <div className={styles.container}>
+      <p className={styles.backHome}>
+        <Link to="/">← Voltar para a página inicial</Link>
+      </p>
+
       <h1 className={styles.title}>
         <GraduationCap size={28} />
         Estágios e Bolsas
