@@ -22,14 +22,14 @@ function Header() {
         <div className={styles.left}>
           <Logotype size={LOGO_SIZE_TYPE.SM} />
 
-          <div className={styles.searchBox}>
+          {/* <div className={styles.searchBox}>
             <input
               type="text"
               placeholder="Buscar editais, moradia, eventos..."
               className={styles.searchInput}
             />
             <Search size={18} className={styles.searchIcon} />
-          </div>
+          </div> */}
         </div>
 
         <nav className={styles.right}>
