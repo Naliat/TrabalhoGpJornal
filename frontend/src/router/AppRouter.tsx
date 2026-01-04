@@ -12,6 +12,7 @@ import Home from "../pages/Home/Home";
 import OpportunitiesList from "../pages/Opportunity/Opportunity";
 import OpportunityDetails from "../pages/Opportunity/subpages/OpportunityDetails/OpportunityDetails";
 import EventsList from "../pages/Event/EventsList";
+import EventDetails from "../pages/Event/subpages/EventDetails";
 
 
 function AppRouter() {
@@ -33,6 +34,7 @@ function AppRouter() {
           <Route path="/oportunidades/:id" element={<OpportunityDetails />} />
           
           <Route path="/eventos" element={<EventsList />} />
+          <Route path="/eventos/:id" element={<EventDetails />} />
         </Route>
 
         <Route element={<ProtectedLayout />}>
