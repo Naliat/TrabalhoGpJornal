@@ -11,6 +11,7 @@ import Landing from "../pages/Landing/Landing";
 import Home from "../pages/Home/Home";
 import OpportunitiesList from "../pages/Opportunity/Opportunity";
 import OpportunityDetails from "../pages/Opportunity/subpages/OpportunityDetails/OpportunityDetails";
+import EventsList from "../pages/Event/EventsList";
 
 
 function AppRouter() {
@@ -18,14 +19,20 @@ function AppRouter() {
     <BrowserRouter>
       <Routes>
         <Route path="/login" element={<Login />} />
+        
         <Route path="/recuperar-senha" element={<PasswordRecovery />} />
+        
         <Route path="/newsletter" element={<Newsletter />} />
+        
         <Route path="/cadastro" element={<Register />} />
 
         <Route element={<PublicLayout />}>
           <Route path="/" element={<Landing />} />
+          
           <Route path="/oportunidades" element={<OpportunitiesList />} />
           <Route path="/oportunidades/:id" element={<OpportunityDetails />} />
+          
+          <Route path="/eventos" element={<EventsList />} />
         </Route>
 
         <Route element={<ProtectedLayout />}>
