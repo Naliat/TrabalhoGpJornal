@@ -13,6 +13,7 @@ import OpportunitiesList from "../pages/Opportunity/Opportunity";
 import OpportunityDetails from "../pages/Opportunity/subpages/OpportunityDetails/OpportunityDetails";
 import EventsList from "../pages/Event/EventsList";
 import EventDetails from "../pages/Event/subpages/EventDetails";
+import BusSchedule from "../pages/BusSchedule/BusSchedule";
 
 
 function AppRouter() {
@@ -20,12 +21,10 @@ function AppRouter() {
     <BrowserRouter>
       <Routes>
         <Route path="/login" element={<Login />} />
-        
         <Route path="/senha/recuperar" element={<PasswordRecovery />} />
-        
         <Route path="/newsletter" element={<Newsletter />} />
-        
         <Route path="/usuario/cadastro" element={<Register />} />
+        <Route path="/onibus/horarios" element={<BusSchedule />} />
 
         <Route element={<PublicLayout />}>
           <Route path="/" element={<Landing />} />
