@@ -21,11 +21,11 @@ function AppRouter() {
       <Routes>
         <Route path="/login" element={<Login />} />
         
-        <Route path="/recuperar-senha" element={<PasswordRecovery />} />
+        <Route path="/senha/recuperar" element={<PasswordRecovery />} />
         
         <Route path="/newsletter" element={<Newsletter />} />
         
-        <Route path="/cadastro" element={<Register />} />
+        <Route path="/usuario/cadastro" element={<Register />} />
 
         <Route element={<PublicLayout />}>
           <Route path="/" element={<Landing />} />

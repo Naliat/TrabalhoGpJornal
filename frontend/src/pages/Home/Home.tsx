@@ -3,12 +3,17 @@ import {
   Users,
   GraduationCap,
   FilePlus,
+  Utensils,
+  Bus,
 } from "lucide-react";
+
+import { Link } from "react-router-dom";
 
 import { useAuth } from "../../auth/hooks/useAuth";
 import { USER_TYPE } from "../../types/enums/UserTypeEnum";
 
 import styles from "./Home.module.css";
+import SimpleFooter from "../../components/Footer/SimpleFooter";
 
 function Home() {
   const { user, loading, isAuthenticated } = useAuth();
@@ -30,19 +35,41 @@ function Home() {
           <h2 className={styles.sectionTitle}>Área do Administrador</h2>
 
           <div className={styles.actionGrid}>
-            <div className={styles.actionCard}>
-              <div className={styles.iconCircle}>
-                <UserPlus size={22} />
+            <Link to="/usuario/cadastro" className={styles.cardLink}>
+              <div className={styles.actionCard}>
+                <div className={styles.iconCircle}>
+                  <UserPlus size={22} />
+                </div>
+                <strong>Criar Usuário</strong>
               </div>
-              <strong>Criar Usuário</strong>
-            </div>
+            </Link>
 
-            <div className={styles.actionCard}>
-              <div className={styles.iconCircle}>
-                <Users size={22} />
+            <Link to="/usuarios" className={styles.cardLink}>
+              <div className={styles.actionCard}>
+                <div className={styles.iconCircle}>
+                  <Users size={22} />
+                </div>
+                <strong>Visualizar Usuários</strong>
               </div>
-              <strong>Visualizar Usuários</strong>
-            </div>
+            </Link>
+
+            <Link to="/ru/cardapio" className={styles.cardLink}>
+              <div className={styles.actionCard}>
+                <div className={styles.iconCircle}>
+                  <Utensils size={22} />
+                </div>
+                <strong>Gerenciar Cardápio do RU</strong>
+              </div>
+            </Link>
+
+            <Link to="/onibus/horarios" className={styles.cardLink}>
+              <div className={styles.actionCard}>
+                <div className={styles.iconCircle}>
+                  <Bus size={22} />
+                </div>
+                <strong>Gerenciar Horários de Ônibus</strong>
+              </div>
+            </Link>
           </div>
         </section>
       )}
@@ -52,19 +79,23 @@ function Home() {
           <h2 className={styles.sectionTitle}>Área do Professor</h2>
 
           <div className={styles.actionGrid}>
-            <div className={styles.actionCard}>
-              <div className={styles.iconCircle}>
-                <GraduationCap size={22} />
+            <Link to="/cadastro" className={styles.cardLink}>
+              <div className={styles.actionCard}>
+                <div className={styles.iconCircle}>
+                  <GraduationCap size={22} />
+                </div>
+                <strong>Criar Aluno</strong>
               </div>
-              <strong>Criar Aluno</strong>
-            </div>
+            </Link>
 
-            <div className={styles.actionCard}>
-              <div className={styles.iconCircle}>
-                <Users size={22} />
+            <Link to="/alunos" className={styles.cardLink}>
+              <div className={styles.actionCard}>
+                <div className={styles.iconCircle}>
+                  <Users size={22} />
+                </div>
+                <strong>Visualizar Alunos</strong>
               </div>
-              <strong>Visualizar Alunos</strong>
-            </div>
+            </Link>
           </div>
         </section>
       )}
@@ -74,15 +105,19 @@ function Home() {
           <h2 className={styles.sectionTitle}>Área do Aluno</h2>
 
           <div className={styles.actionGrid}>
-            <div className={styles.actionCard}>
-              <div className={styles.iconCircle}>
-                <FilePlus size={22} />
+            <Link to="/noticia/novo" className={styles.cardLink}>
+              <div className={styles.actionCard}>
+                <div className={styles.iconCircle}>
+                  <FilePlus size={22} />
+                </div>
+                <strong>Adicionar Notícia</strong>
               </div>
-              <strong>Adicionar Notícia</strong>
-            </div>
+            </Link>
           </div>
         </section>
       )}
+
+      <SimpleFooter />
     </div>
   );
 }
