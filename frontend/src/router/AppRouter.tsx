@@ -14,6 +14,7 @@ import OpportunityDetails from "../pages/Opportunity/subpages/OpportunityDetails
 import EventsList from "../pages/Event/EventsList";
 import EventDetails from "../pages/Event/subpages/EventDetails";
 import BusSchedule from "../pages/BusSchedule/BusSchedule";
+import RuMenu from "../pages/RuMenu/RuMenu";
 
 
 function AppRouter() {
@@ -24,6 +25,7 @@ function AppRouter() {
         <Route path="/senha/recuperar" element={<PasswordRecovery />} />
         <Route path="/newsletter" element={<Newsletter />} />
         <Route path="/usuario/cadastro" element={<Register />} />
+        <Route path="/ru/cardapio" element={<RuMenu />} />
         <Route path="/onibus/horarios" element={<BusSchedule />} />
 
         <Route element={<PublicLayout />}>
