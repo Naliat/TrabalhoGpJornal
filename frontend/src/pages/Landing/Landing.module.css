@@ -451,46 +451,122 @@
   color: #334155;
 }
 
-/* =======================
-   RESPONSIVO
-======================= */
+.ruModal {
+  max-height: calc(100vh - 96px);
+  display: flex;
+  flex-direction: column;
+}
 
-@media (max-width: 480px) {
-  .modal {
-    margin: 0 12px;
-    padding: 18px;
-  }
+.ruModalContent {
+  overflow-y: auto;
+  padding-right: 4px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
 
-  .modalRow {
-    grid-template-columns: 1fr auto;
-    row-gap: 6px;
-  }
+.ruMenuDay {
+  background: #f8fafc;
+  border-radius: 16px;
+  padding: 14px;
+  border: 1px solid #e5e7eb;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
 
-  .busTag {
-    grid-column: span 2;
-    justify-self: flex-start;
-  }
+.ruMenuHeader {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.75rem;
+}
+
+.ruMenuHeader strong {
+  font-weight: 900;
+  color: #020617;
+}
+
+.ruMenuHeader span {
+  color: #64748b;
+  font-weight: 600;
+}
+
+.ruMeal {
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 0.75rem;
+}
+
+.ruMeal h4 {
+  font-size: 0.85rem;
+  font-weight: 800;
+  margin-bottom: 4px;
 }
 
 @media (max-width: 900px) {
-  .featuredSection {
-    grid-template-columns: 1fr;
-    grid-template-rows: auto;
-  }
-
-  .featuredMain {
-    grid-row: span 1;
-  }
-
-  .menuCard {
-    grid-row: span 1;
-  }
-
   .menuGrid {
     grid-template-columns: 1fr;
   }
 
-  .grid {
-    grid-template-columns: 1fr;
+  .menuCard {
+    padding: 18px;
+  }
+
+  .ruModal {
+    max-height: calc(100vh - 88px);
+  }
+}
+
+@media (max-width: 640px) {
+  .menuSection {
+    padding: 14px;
+    font-size: 0.8rem;
+  }
+
+  .ruModal {
+    margin: 0 12px;
+    max-height: calc(100vh - 80px);
+  }
+
+  .ruModalContent {
+    gap: 12px;
+  }
+
+  .ruMenuHeader {
+    flex-direction: column;
+    gap: 2px;
+  }
+}
+
+@media (max-width: 480px) {
+  .menuCard {
+    gap: 14px;
+  }
+
+  .menuSection h4 {
+    font-size: 1rem;
+  }
+
+  .ruMeal {
+    padding: 10px;
+    font-size: 0.7rem;
+  }
+
+  .ruMeal h4 {
+    font-size: 0.8rem;
+  }
+
+  .modalPagination {
+    gap: 8px;
+  }
+
+  .modalPagination button {
+    min-width: 80px;
+    padding: 6px 10px;
+    font-size: 0.65rem;
   }
 }
