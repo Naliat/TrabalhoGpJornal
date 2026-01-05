@@ -259,6 +259,219 @@
   margin-bottom: 60px;
 }
 
+.busMoreButton {
+  margin-top: 10px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 10px 14px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  border-radius: 12px;
+  border: 1px solid #bae6fd;
+  background: #0284C7;
+  color: #fff;
+  cursor: pointer;
+}
+
+.busMoreButton:hover {
+  background-color: #0369a1;
+}
+
+/* =======================
+   MODAL
+======================= */
+
+.modalOverlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(2, 6, 23, 0.55);
+  backdrop-filter: blur(3px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 50;
+}
+
+.modal {
+  background: #ffffff;
+  width: 100%;
+  max-width: 460px;
+  border-radius: 22px;
+  padding: 22px;
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.35);
+}
+
+/* Header */
+
+.modalHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 18px;
+}
+
+.modalHeader h3 {
+  font-size: 1.15rem;
+  font-weight: 900;
+  color: #020617;
+}
+
+.modalSubtitle {
+  font-size: 0.75rem;
+  color: #64748b;
+  margin-top: 2px;
+}
+
+.modalHeader button {
+  width: 32px;
+  height: 32px;
+  border-radius: 10px;
+  border: none;
+  background: #f1f5f9;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* =======================
+   FILTROS
+======================= */
+
+.modalFilterBlock {
+  margin-bottom: 18px;
+}
+
+.modalFilterTitle {
+  font-size: 0.8rem;
+  font-weight: 800;
+  color: #334155;
+  margin-bottom: 10px;
+}
+
+.modalFilters {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 10px;
+}
+
+.modalFilters button {
+  padding: 6px 14px;
+  border-radius: 999px;
+  border: 1px solid #d1d5db;
+  background: #f9fafb;
+  font-size: 0.7rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.modalFilters .active {
+  background: #0284c7;
+  border-color: #0284c7;
+  color: #ffffff;
+}
+
+/* =======================
+   LISTA
+======================= */
+
+.modalList {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.modalRow {
+  display: grid;
+  grid-template-columns: 1fr auto auto;
+  gap: 12px;
+  align-items: center;
+  background: #f8fafc;
+  padding: 10px 14px;
+  border-radius: 14px;
+  font-size: 0.75rem;
+  border: 1px solid #e5e7eb;
+}
+
+.modalRow span {
+  color: #475569;
+  font-weight: 600;
+}
+
+.modalRow strong {
+  font-weight: 900;
+  color: #020617;
+}
+
+/* Tag Ônibus */
+
+.busTag {
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: #e0f2fe;
+  color: #0369a1;
+  font-weight: 800;
+  font-size: 0.65rem;
+}
+
+/* =======================
+   PAGINAÇÃO
+======================= */
+
+.modalPagination {
+  margin-top: 18px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.modalPagination button {
+  min-width: 90px;
+  padding: 7px 12px;
+  border-radius: 999px;
+  border: 1px solid #cbd5f5;
+  background: #eef2ff;
+  font-size: 0.7rem;
+  font-weight: 800;
+  color: #1e3a8a;
+  cursor: pointer;
+}
+
+.modalPagination button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.modalPagination span {
+  font-size: 0.7rem;
+  font-weight: 800;
+  color: #334155;
+}
+
+/* =======================
+   RESPONSIVO
+======================= */
+
+@media (max-width: 480px) {
+  .modal {
+    margin: 0 12px;
+    padding: 18px;
+  }
+
+  .modalRow {
+    grid-template-columns: 1fr auto;
+    row-gap: 6px;
+  }
+
+  .busTag {
+    grid-column: span 2;
+    justify-self: flex-start;
+  }
+}
+
 @media (max-width: 900px) {
   .featuredSection {
     grid-template-columns: 1fr;
