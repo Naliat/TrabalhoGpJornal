@@ -5,7 +5,7 @@ import type { UserResponseDTO } from "../../../types/user/dto/UserResponseDTO";
 import { parseErrorResponse } from "../../../utils/parseErrorResponse";
 
 export async function registerUser(data: UserCreateDTO): Promise<UserResponseDTO> {
-    const url = `${ENV.API_BASE_URL}/auth/register`;
+    const url = `${ENV.API_BASE_URL}/users/register`;
 
     const response = await fetch(url, {
         method: "POST",

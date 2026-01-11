@@ -1,32 +1,50 @@
-import { useMemo, useState } from "react";
+import { useMemo, useState, useEffect } from "react";
 import { Search, Filter, GraduationCap } from "lucide-react";
-
-import {
-  opportunitiesMock,
-  type OpportunityType,
-} from "../../mocks/opportunity";
-
-import styles from "./OpportunitiesList.module.css";
-import OpportunityCard from "./components/OpportunityCard";
 import { Link } from "react-router-dom";
 
-const ITEMS_PER_PAGE = 10;
+import { getNews } from "../../api/service/news/getNews";
+import OpportunityCard from "./components/OpportunityCard";
+import styles from "./OpportunitiesList.module.css";
 
+const ITEMS_PER_PAGE = 15;
 function OpportunitiesList() {
+  
+  const [opportunities, setOpportunities] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+  
   const [search, setSearch] = useState("");
-  const [typeFilter, setTypeFilter] =
-    useState<OpportunityType | "all">("all");
+  const [typeFilter, setTypeFilter] = useState<string>("all");
   const [page, setPage] = useState(1);
 
+   
+  useEffect(() => {
+    async function loadData() {
+      try {
+        setLoading(true);
+         
+        const data = await getNews("Oportunidade");
+        setOpportunities(data);
+      } catch (err) {
+        console.error("Erro ao carregar oportunidades do banco:", err);
+      } finally {
+        setLoading(false);
+      }
+    }
+    loadData();
+  }, []);
+
+  
   const filtered = useMemo(() => {
-    return opportunitiesMock
+    return opportunities
       .filter((op) =>
-        op.title.toLowerCase().includes(search.toLowerCase())
+         
+        op.titulo.toLowerCase().includes(search.toLowerCase())
       )
       .filter((op) =>
-        typeFilter === "all" ? true : op.tipo === typeFilter
+        
+        typeFilter === "all" ? true : op.tags?.includes(typeFilter)
       );
-  }, [search, typeFilter]);
+  }, [search, typeFilter, opportunities]);
 
   const totalPages = Math.ceil(filtered.length / ITEMS_PER_PAGE);
 
@@ -34,6 +52,14 @@ function OpportunitiesList() {
     (page - 1) * ITEMS_PER_PAGE,
     page * ITEMS_PER_PAGE
   );
+
+  if (loading) {
+    return (
+      <div className={styles.container}>
+        <p className={styles.loading}>Conectando ao banco de dados...</p>
+      </div>
+    );
+  }
 
   return (
     <div className={styles.container}>
@@ -46,7 +72,9 @@ function OpportunitiesList() {
         Estágios e Bolsas
       </h1>
 
-      <p className={styles.subtitle}>Oportunidades de estágios, bolsas e programas para estudantes</p>
+      <p className={styles.subtitle}>
+        Oportunidades de estágios, bolsas e programas para estudantes
+      </p>
 
       <div className={styles.filters}>
         <div className={styles.searchBox}>
@@ -65,11 +93,7 @@ function OpportunitiesList() {
           <Filter size={18} />
           <select
             value={typeFilter}
-            onChange={(e) =>
-              setTypeFilter(
-                e.target.value as OpportunityType | "all"
-              )
-            }
+            onChange={(e) => setTypeFilter(e.target.value)}
           >
             <option value="all">Todas</option>
             <option value="bolsas-remuneradas">Bolsas</option>
@@ -81,18 +105,30 @@ function OpportunitiesList() {
       </div>
 
       <div className={styles.list}>
-        {paginated.map((op) => (
-          <OpportunityCard
-            key={op.id}
-            opportunity={op}
-          />
-        ))}
+        {paginated.length > 0 ? (
+          paginated.map((op) => (
+            <OpportunityCard
+              key={op.id}
+              
+              opportunity={{
+                id: op.id,
+                title: op.titulo,
+                description: op.conteudo,
+                tipo: op.tags?.[0] || "Oportunidade",
+                tags: op.tags || [],
+                data: op.data_publicacao
+              } as any}
+            />
+          ))
+        ) : (
+          <p className={styles.empty}>Nenhuma vaga encontrada para os critérios selecionados.</p>
+        )}
       </div>
 
       {totalPages > 1 && (
         <div className={styles.pagination}>
-          <button
-            disabled={page === 1}
+          <button 
+            disabled={page === 1} 
             onClick={() => setPage((p) => p - 1)}
           >
             Anterior
@@ -102,8 +138,8 @@ function OpportunitiesList() {
             Página {page} de {totalPages}
           </span>
 
-          <button
-            disabled={page === totalPages}
+          <button 
+            disabled={page === totalPages} 
             onClick={() => setPage((p) => p + 1)}
           >
             Próxima

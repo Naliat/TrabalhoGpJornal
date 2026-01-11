@@ -1,4 +1,4 @@
-import { LogIn, Search } from "lucide-react";
+import { LogIn } from "lucide-react";
 import { NavLink, useNavigate } from "react-router-dom";
 
 import Logotype from "../Logotype/Logotype";
@@ -21,15 +21,6 @@ function Header() {
       <div className={styles.content}>
         <div className={styles.left}>
           <Logotype size={LOGO_SIZE_TYPE.SM} />
-
-          {/* <div className={styles.searchBox}>
-            <input
-              type="text"
-              placeholder="Buscar editais, moradia, eventos..."
-              className={styles.searchInput}
-            />
-            <Search size={18} className={styles.searchIcon} />
-          </div> */}
         </div>
 
         <nav className={styles.right}>
@@ -53,7 +44,8 @@ function Header() {
             </li>
 
             <li>
-              <NavLink to="/projetos" className={getNavLinkClass}>
+              
+              <NavLink to="/assistencia" className={getNavLinkClass}>
                 Assistência
               </NavLink>
             </li>

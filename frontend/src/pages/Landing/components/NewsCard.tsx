@@ -11,11 +11,15 @@ type Props = {
 };
 
 function formatDate(date: string) {
-  return new Date(date).toLocaleDateString("pt-BR", {
-    day: "numeric",
-    month: "long",
-    year: "numeric",
-  });
+  try {
+    return new Date(date).toLocaleDateString("pt-BR", {
+      day: "numeric",
+      month: "long",
+      year: "numeric",
+    });
+  } catch {
+    return "Data indisponível";
+  }
 }
 
 function NewsCard({
@@ -25,15 +29,29 @@ function NewsCard({
   date,
   tags,
 }: Props) {
+  
+  const fallbackImage = "https://images.unsplash.com/photo-1585829365234-781fcd04c838?q=80&w=1000&auto=format&fit=crop";
+
   return (
     <div className={styles.featuredMain}>
-      <img src={image} alt={title} />
+       
+      <img 
+        src={image || fallbackImage} 
+        alt={title} 
+        onError={(e) => {
+          (e.target as HTMLImageElement).src = fallbackImage;
+        }}
+      />
 
       <div className={styles.textBlock}>
         <div className={styles.tags}>
-          {tags.map((tag) => (
-            <span key={tag}>{tag}</span>
-          ))}
+          {tags && tags.length > 0 ? (
+            tags.map((tag) => (
+              <span key={tag} className={styles.tagBadge}>{tag}</span>
+            ))
+          ) : (
+            <span className={styles.tagBadge}>Geral</span>
+          )}
         </div>
 
         <h2 className={styles.featuredTitle}>{title}</h2>
@@ -41,7 +59,8 @@ function NewsCard({
 
         <div className={styles.date}>
           <Clock size={14} />
-          <span>Até {formatDate(date)}</span>
+           
+          <span>Publicado em {formatDate(date)}</span>
         </div>
       </div>
     </div>

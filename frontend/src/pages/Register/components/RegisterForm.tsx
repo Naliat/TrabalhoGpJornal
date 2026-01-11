@@ -2,37 +2,49 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { Eye, EyeOff } from "lucide-react";
 
-import type { UserForm } from "../../../types/user/domain/UserForm";
 import { USER_TYPE, type UserType } from "../../../types/enums/UserTypeEnum";
 import { useRegister } from "../hooks/useRegister";
-
 import styles from "../Register.module.css";
 
 function RegisterForm() {
-    const [formData, setFormData] = useState<UserForm>({
+    const [formData, setFormData] = useState({
         firstName: "",
         secondName: "",
+        matricula: "",
         email: "",
         password: "",
-        userType: USER_TYPE.STUDENT,
+        userType: USER_TYPE.STUDENT as UserType,  
     });
 
     const [showPassword, setShowPassword] = useState(false);
-
     const { handleRegister, isLoading, errorMessage } = useRegister();
+
+    const handleSubmit = (e: React.FormEvent) => {
+        e.preventDefault();
+        
+         
+        const backendPayload = {
+            username: `${formData.firstName} ${formData.secondName}`.trim(),
+            matricula: formData.matricula || null,
+            email: formData.email,
+            user_type: formData.userType, 
+            password: formData.password
+        };
+
+        handleRegister(backendPayload as any);
+    };
 
     return (
         <div className={styles.cardForm}>
-            <form className={styles.form}>
+            <form className={styles.form} onSubmit={handleSubmit}>
                 <div className={styles.floatingGroup}>
                     <input
                         id="firstName"
                         type="text"
                         placeholder="Nome"
                         value={formData.firstName}
-                        onChange={(e) =>
-                            setFormData({ ...formData, firstName: e.target.value })
-                        }
+                        onChange={(e) => setFormData({ ...formData, firstName: e.target.value })}
+                        required
                         disabled={isLoading}
                     />
                     <label htmlFor="firstName">Nome</label>
@@ -44,9 +56,8 @@ function RegisterForm() {
                         type="text"
                         placeholder="Sobrenome"
                         value={formData.secondName}
-                        onChange={(e) =>
-                            setFormData({ ...formData, secondName: e.target.value })
-                        }
+                        onChange={(e) => setFormData({ ...formData, secondName: e.target.value })}
+                        required
                         disabled={isLoading}
                     />
                     <label htmlFor="secondName">Sobrenome</label>
@@ -54,13 +65,24 @@ function RegisterForm() {
 
                 <div className={styles.floatingGroup}>
                     <input
+                        id="matricula"
+                        type="text"
+                        placeholder="Matrícula"
+                        value={formData.matricula}
+                        onChange={(e) => setFormData({ ...formData, matricula: e.target.value })}
+                        disabled={isLoading}
+                    />
+                    <label htmlFor="matricula">Matrícula</label>
+                </div>
+
+                <div className={styles.floatingGroup}>
+                    <input
                         id="email"
                         type="email"
-                        placeholder="nome.sobrenome@sigla.ufc.br"
+                        placeholder="Email"
                         value={formData.email}
-                        onChange={(e) =>
-                            setFormData({ ...formData, email: e.target.value })
-                        }
+                        onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                        required
                         disabled={isLoading}
                     />
                     <label htmlFor="email">Email</label>
@@ -70,12 +92,7 @@ function RegisterForm() {
                     <select
                         id="userType"
                         value={formData.userType}
-                        onChange={(e) =>
-                            setFormData({
-                                ...formData,
-                                userType: e.target.value as UserType,
-                            })
-                        }
+                        onChange={(e) => setFormData({ ...formData, userType: e.target.value as UserType })}
                         disabled={isLoading}
                     >
                         {Object.values(USER_TYPE).map((type) => (
@@ -91,38 +108,28 @@ function RegisterForm() {
                     <input
                         id="password"
                         type={showPassword ? "text" : "password"}
-                        placeholder="********"
+                        placeholder="Senha"
                         value={formData.password}
-                        onChange={(e) =>
-                            setFormData({ ...formData, password: e.target.value })
-                        }
+                        onChange={(e) => setFormData({ ...formData, password: e.target.value })}
+                        required
                         disabled={isLoading}
                     />
-                    <label htmlFor="password">Senha</label>
-
+                    <label htmlFor="password">Senha (Mín. 8 caracteres)</label>
                     <button
                         type="button"
                         className={styles.togglePassword}
-                        onClick={() => setShowPassword((prev) => !prev)}
-                        disabled={isLoading}
+                        onClick={() => setShowPassword(!showPassword)}
                     >
                         {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
                     </button>
                 </div>
 
-                {errorMessage && (
-                    <p className={styles.errorMessage}>{errorMessage}</p>
-                )}
+                {errorMessage && <p className={styles.errorMessage}>{errorMessage}</p>}
 
-                <button
-                    type="button"
-                    className={styles.registerBtn}
-                    disabled={isLoading}
-                    onClick={() => handleRegister(formData)}
-                >
+                <button type="submit" className={styles.registerBtn} disabled={isLoading}>
                     {isLoading ? "Registrando..." : "Criar conta"}
                 </button>
-                
+
                 <p className={styles.backHome}>
                     <Link to="/home">← Voltar</Link>
                 </p>

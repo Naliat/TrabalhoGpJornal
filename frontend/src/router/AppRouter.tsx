@@ -15,7 +15,7 @@ import EventsList from "../pages/Event/EventsList";
 import EventDetails from "../pages/Event/subpages/EventDetails";
 import BusSchedule from "../pages/BusSchedule/BusSchedule";
 import RuMenu from "../pages/RuMenu/RuMenu";
-
+import Assistencia from "../pages/Assistance/Assistencia";
 
 function AppRouter() {
   return (
@@ -36,6 +36,8 @@ function AppRouter() {
           
           <Route path="/eventos" element={<EventsList />} />
           <Route path="/eventos/:id" element={<EventDetails />} />
+
+          <Route path="/assistencia" element={<Assistencia />} />
         </Route>
 
         <Route element={<ProtectedLayout />}>

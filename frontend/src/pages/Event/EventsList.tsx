@@ -1,8 +1,7 @@
-import { useState } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { Link, useNavigate } from "react-router-dom";
-
+import { getNews } from "../../api/service/news/getNews";
 import styles from "./EventsList.module.css";
-import { eventsMock } from "../../mocks/event";
 
 const eventTags = [
   "todas",
@@ -14,28 +13,41 @@ const eventTags = [
 ];
 
 function EventsList() {
+  const [events, setEvents] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
   const [filter, setFilter] = useState("todas");
   const navigate = useNavigate();
 
-  const featuredEvent = eventsMock.find((e) => e.ativo);
+  useEffect(() => {
+    async function loadEvents() {
+      try {
+        setLoading(true);
+        const data = await getNews("Evento");
+        setEvents(data);
+      } catch (err) {
+        console.error(err);
+      } finally {
+        setLoading(false);
+      }
+    }
+    loadEvents();
+  }, []);
 
-  const filteredEvents = eventsMock
-    .filter((event) =>
-      filter === "todas" ? true : event.tag === filter
-    )
-    .slice(0, 6);
+  const featuredEvent = events[0];
 
-  const eventosAtivos = eventsMock.filter((e) => e.ativo).length;
-  const totalVagas = eventsMock.reduce(
-    (acc, e) => acc + e.totalVagas,
-    0
-  );
-  const eventosCulturais = eventsMock.filter(
-    (e) => e.tag === "Cultural"
-  ).length;
-  const inscricoesAbertas = eventsMock.filter(
-    (e) => e.ativo
-  ).length;
+  const filteredEvents = useMemo(() => {
+    return events
+      .filter((event) =>
+        filter === "todas" ? true : event.tags?.includes(filter)
+      )
+      .slice(0, 6);
+  }, [events, filter]);
+
+  const eventosAtivos = events.length;
+  const eventosCulturais = events.filter((e) => e.tags?.includes("Cultural")).length;
+  const totalVagas = events.length * 50; 
+
+  if (loading) return <div className={styles.container}><p>Carregando...</p></div>;
 
   return (
     <div className={styles.container}>
@@ -50,22 +62,18 @@ function EventsList() {
         <section className={styles.featuredSection}>
           <div className={styles.featuredCard}>
             <img
-              src={featuredEvent.image}
+              src={featuredEvent.imagem_url || "https://via.placeholder.com/800x400"}
               alt={featuredEvent.titulo}
             />
 
             <div className={styles.featuredContent}>
               <span className={styles.tag}>
-                {featuredEvent.tag}
+                {featuredEvent.tags?.[0] || "Geral"}
               </span>
               <h2>{featuredEvent.titulo}</h2>
-              <p>{featuredEvent.subtitulo}</p>
+              <p>{featuredEvent.conteudo.substring(0, 150)}...</p>
 
-              <button
-                onClick={() =>
-                  navigate(`/eventos/${featuredEvent.id}`)
-                }
-              >
+              <button onClick={() => navigate(`/eventos/${featuredEvent.id}`)}>
                 Ver detalhes
               </button>
             </div>
@@ -74,9 +82,7 @@ function EventsList() {
       )}
 
       <section className={styles.block}>
-        <h2 className={styles.sectionTitle}>
-          Todos os Eventos
-        </h2>
+        <h2 className={styles.sectionTitle}>Todos os Eventos</h2>
 
         <div className={styles.filters}>
           {eventTags.map((tag) => (
@@ -94,24 +100,20 @@ function EventsList() {
           {filteredEvents.map((event) => (
             <div key={event.id} className={styles.card}>
               <img
-                src={event.image}
+                src={event.imagem_url || "https://via.placeholder.com/400x200"}
                 alt={event.titulo}
               />
 
               <div className={styles.cardContent}>
                 <span className={styles.tag}>
-                  {event.tag}
+                  {event.tags?.[0] || "Evento"}
                 </span>
                 <h3>{event.titulo}</h3>
                 <p className={styles.description}>
-                  {event.subtitulo}
+                  {event.conteudo.substring(0, 100)}...
                 </p>
 
-                <button
-                  onClick={() =>
-                    navigate(`/eventos/${event.id}`)
-                  }
-                >
+                <button onClick={() => navigate(`/eventos/${event.id}`)}>
                   Ver detalhes
                 </button>
               </div>
@@ -125,19 +127,16 @@ function EventsList() {
           <strong>{eventosAtivos}</strong>
           <span>Eventos Ativos</span>
         </div>
-
         <div className={styles.statCard}>
           <strong>{totalVagas}</strong>
-          <span>Total de Vagas</span>
+          <span>Vagas Estimadas</span>
         </div>
-
         <div className={styles.statCard}>
           <strong>{eventosCulturais}</strong>
-          <span>Eventos Culturais</span>
+          <span>Culturais</span>
         </div>
-
         <div className={styles.statCard}>
-          <strong>{inscricoesAbertas}</strong>
+          <strong>{eventosAtivos}</strong>
           <span>Inscrições Abertas</span>
         </div>
       </section>
