@@ -54,7 +54,7 @@ function Header() {
 
             <li>
               <NavLink to="/projetos" className={getNavLinkClass}>
-                Projetos
+                Assistência
               </NavLink>
             </li>
           </ul>
