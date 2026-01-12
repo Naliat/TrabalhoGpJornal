@@ -1,4 +1,4 @@
-import { UserPlus, Users, GraduationCap, FilePlus, Utensils, Bus } from "lucide-react";
+import { UserPlus, Users, GraduationCap, FilePlus, Utensils} from "lucide-react";
 import { Link } from "react-router-dom";
 import { useAuth } from "../../auth/hooks/useAuth";
 import { USER_TYPE } from "../../types/enums/UserTypeEnum";
