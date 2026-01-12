@@ -1,8 +1,8 @@
 .header {
-  height: 76px;
+  height: auto;
+  min-height: 76px;
   background-color: #ffffff;
   border-bottom: 1px solid #e5e5e5;
-
   position: sticky;
   top: 0;
   z-index: 100;
@@ -10,14 +10,14 @@
 
 .content {
   max-width: 1200px;
-  height: 100%;
+  min-height: 76px;
   margin: 0 auto;
   padding: 0 32px;
-
   display: flex;
   align-items: center;
   justify-content: space-between;
   box-sizing: border-box;
+  flex-wrap: wrap;
 }
 
 .left {
@@ -83,6 +83,7 @@
   padding: 7px 12px;
   border-radius: 8px;
   transition: background-color 0.2s, color 0.2s;
+  white-space: nowrap;
 }
 
 .navLink:not(.active):hover {
@@ -121,11 +122,48 @@
 }
 
 @media (max-width: 900px) {
-  .menu {
-    display: none;
+  .header {
+    padding: 10px 0;
+  }
+
+  .content {
+    flex-direction: column;
+    gap: 12px;
+    padding: 0 16px;
+  }
+
+  .left {
+    width: 100%;
+    justify-content: center;
   }
 
   .searchBox {
-    max-width: 280px;
+    max-width: 100%;
+    order: 3;
+  }
+
+  .right {
+    width: 100%;
+    flex-direction: column;
+    gap: 12px;
+    order: 2;
+  }
+
+  .menu {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 2px;
+  }
+
+  .navLink {
+    font-size: 11px;
+    padding: 6px 8px;
+  }
+
+  .loginArea {
+    width: 100%;
+    justify-content: center;
   }
 }
