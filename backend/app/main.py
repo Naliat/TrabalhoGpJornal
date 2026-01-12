@@ -52,7 +52,17 @@ def create_app() -> FastAPI:
         lifespan=lifespan
     )
 
-    origins = [settings.FRONTEND_URL]
+   
+    origins = [
+        "http://localhost:5173",                   
+        "https://trabalho-gp-jornal.vercel.app",   
+        "https://trabalho-geren-config.vercel.app" 
+    ]
+    
+   
+    if settings.FRONTEND_URL and settings.FRONTEND_URL not in origins:
+        origins.append(settings.FRONTEND_URL)
+
     application.add_middleware(
         CORSMiddleware,
         allow_origins=origins,              
@@ -63,6 +73,7 @@ def create_app() -> FastAPI:
 
     application.add_middleware(LoggingMiddleware)
 
+    
     application.include_router(auth.router, tags=["Autenticação"])
     application.include_router(users.router, tags=["Usuários"])
     application.include_router(newsletter.router, tags=["Newsletter"])
