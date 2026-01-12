@@ -1,0 +1,66 @@
+import { LogIn } from "lucide-react";
+import { NavLink, useNavigate } from "react-router-dom";
+
+import Logotype from "../Logotype/Logotype";
+import { LOGO_SIZE_TYPE } from "../../types/enums/LogoSizeTypeEnum";
+
+import styles from "./Header.module.css";
+
+function Header() {
+  const navigate = useNavigate();
+
+  function redirectToLogin() {
+    navigate("/login");
+  }
+
+  const getNavLinkClass = ({ isActive }: { isActive: boolean }) =>
+    `${styles.navLink} ${isActive ? styles.active : ""}`;
+
+  return (
+    <header className={styles.header}>
+      <div className={styles.content}>
+        <div className={styles.left}>
+          <Logotype size={LOGO_SIZE_TYPE.SM} />
+        </div>
+
+        <nav className={styles.right}>
+          <ul className={styles.menu}>
+            <li>
+              <NavLink to="/" end className={getNavLinkClass}>
+                Início
+              </NavLink>
+            </li>
+
+            <li>
+              <NavLink to="/oportunidades" className={getNavLinkClass}>
+                Oportunidades
+              </NavLink>
+            </li>
+
+            <li>
+              <NavLink to="/eventos" className={getNavLinkClass}>
+                Eventos
+              </NavLink>
+            </li>
+
+            <li>
+              
+              <NavLink to="/assistencia" className={getNavLinkClass}>
+                Assistência
+              </NavLink>
+            </li>
+          </ul>
+
+          <div className={styles.loginArea}>
+            <button className={styles.loginBtn} onClick={redirectToLogin}>
+              <LogIn size={16} />
+              Entrar
+            </button>
+          </div>
+        </nav>
+      </div>
+    </header>
+  );
+}
+
+export default Header;

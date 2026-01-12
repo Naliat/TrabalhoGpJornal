@@ -1,94 +1,141 @@
-
 from motor.motor_asyncio import AsyncIOMotorDatabase
-from typing import Optional, Dict, Any, List
-from bson.objectid import ObjectId
+from bson import ObjectId
 from fastapi import HTTPException, status
-from passlib.context import CryptContext
+from typing import Optional, List
+from datetime import datetime, timezone
+from ..models.user import UserCreate, UserResponse, UserUpdate
 
-COLLECTION_NAME = "users"
-pwd_context = CryptContext(schemes=["pbkdf2_sha256"], deprecated="auto")
 
-class CRUDUser: 
-    
-    def __init__(self, db: Optional[AsyncIOMotorDatabase]):
-        self.db = db
-        self.collection = None
-        if self.db is not None:
-            self.collection = self.db[COLLECTION_NAME]
+class CRUDUser:
+
+    def __init__(self, db: AsyncIOMotorDatabase):
+        self.collection = db.USUARIO
 
     def is_db_active(self):
         if self.collection is None:
-            raise HTTPException(status_code=status.HTTP_503_SERVICE_UNAVAILABLE, 
-                detail="Conexão com o banco de dados não está ativa.")
+            raise HTTPException(
+                status_code=status.HTTP_503_SERVICE_UNAVAILABLE, 
+                detail="Conexão com o banco de dados não está ativa."
+            )
         return True
-        
-    async def create_user(self, user_data: Dict[str, Any]) -> Optional[Dict[str, Any]]:
-        self.is_db_active() 
-        
-        if await self.collection.find_one({"username": user_data["username"]}):
-            return None
-        
-        result = await self.collection.insert_one(user_data)
-        user_data["_id"] = str(result.inserted_id)
-        user_data.pop("hashed_password", None)
-        return user_data
-
-    async def get_user_by_username(self, username: str) -> Optional[Dict[str, Any]]:
-        self.is_db_active()
-        document = await self.collection.find_one({"username": username})
-        if document:
-            document["_id"] = str(document["_id"])
-            return document
-        return None
-
-    async def get_user_by_id(self, user_id: str) -> Optional[Dict[str, Any]]:
-        self.is_db_active()
-        try:
-            object_id = ObjectId(user_id)
-        except:
-            return None 
-
-        document = await self.collection.find_one({"_id": object_id}, {"hashed_password": 0})
-        if document:
-            document["_id"] = str(document["_id"])
-            return document
-        return None
-
-    async def get_all_users(self) -> List[Dict[str, Any]]:
-        self.is_db_active()
-        users_cursor = self.collection.find({}, {"hashed_password": 0}) 
-        lista_usuarios = []
-        async for user in users_cursor:
-            user["_id"] = str(user["_id"])
-            lista_usuarios.append(user)
-        return lista_usuarios
     
-    async def update_user(self, user_id: str, update_data: Dict[str, Any]) -> Optional[Dict[str, Any]]:
+    def _normalize_user(self, user: dict) -> dict:
+        user["id"] = str(user["_id"])
+        user.pop("_id", None)
+
+        # Compatibilidade com dados antigos
+        if "user_type" not in user and "papel" in user:
+            user["user_type"] = user.pop("papel")
+
+        return user
+    
+    async def create_user(self, user_in: UserCreate) -> UserResponse:
+        self.is_db_active()
+        
+        try:
+            if await self.collection.find_one({"email": user_in.email}):
+                raise HTTPException(
+                    status_code=400,
+                    detail="E-mail já cadastrado"
+                )
+            user_dict = user_in.model_dump()
+            user_dict["data_criacao"] = datetime.now(timezone.utc)
+
+            result = await self.collection.insert_one(user_dict)
+
+            user_dict["id"] = str(result.inserted_id)
+            return UserResponse(**user_dict)
+
+        except HTTPException:
+            raise
+        except Exception as e:
+            raise HTTPException(
+                status_code=500,
+                detail=f"Erro ao criar usuário: {str(e)}"
+     )
+
+    async def get_user_by_id(self, user_id: str) -> Optional[UserResponse]:
         self.is_db_active()
         try:
             object_id = ObjectId(user_id)
-        except:
-            return None
+        except Exception:
+            raise HTTPException(
+                status_code=400,
+                detail="ID de usuário inválido"
+            )
 
-        if "password" in update_data:
-            update_data["hashed_password"] = pwd_context.hash(update_data.pop("password"))
+        user = await self.collection.find_one({"_id": object_id})
+        if not user:
+            raise HTTPException(
+                status_code=404,
+                detail="Usuário não encontrado"
+            )
         
+        user["id"] = str(user["_id"])
+        return self._normalize_user(user)
+        
+
+    async def get_all_users(self, skip: int = 0, limit: int = 20) -> List[UserResponse]:
+        self.is_db_active()
+        users_cursor = self.collection.find().skip(skip).limit(limit)
+        lista_users = []
+        
+        async for user in users_cursor:
+            user["id"] = str(user["_id"])
+            lista_users.append(self._normalize_user(user))
+            
+        return lista_users
+
+    async def get_users_by_type(self, user_type: str, skip: int = 0, limit: int = 20) -> List[UserResponse]:
+        self.is_db_active()
+        query = {"$or": [{"user_type": user_type}, {"papel": user_type}]}
+        users_cursor = self.collection.find(query).skip(skip).limit(limit)
+        
+        lista_users = []
+        async for user in users_cursor:
+            user["id"] = str(user["_id"])
+            lista_users.append(self._normalize_user(user))
+            
+        return lista_users
+
+    async def update_user(self, user_id: str, update_data: UserUpdate) -> Optional[UserResponse]:
+        self.is_db_active()
+        try:
+            object_id = ObjectId(user_id)
+        except Exception:
+            raise HTTPException(400, "ID inválido")
+
+        update_dict = {k: v for k, v in update_data.model_dump().items() if v is not None}
+        
+        if "email" in update_dict:
+            existing = await self.collection.find_one({
+            "email": update_dict["email"],
+            "_id": {"$ne": object_id}
+            })
+            if existing:
+                raise HTTPException(400, "E-mail já cadastrado")
+
         result = await self.collection.update_one(
             {"_id": object_id},
-            {"$set": update_data}
+            {"$set": update_dict}
         )
+        if result.matched_count == 0:
+            raise HTTPException(404, "Usuário não encontrado")
+        
+        updated = await self.collection.find_one({"_id": object_id})
+        updated["id"] = str(updated["_id"])
 
-        if result.modified_count == 1:
-            return await self.get_user_by_id(user_id)
-        return None
+        return self._normalize_user(updated)
 
     async def delete_user(self, user_id: str) -> bool:
         self.is_db_active()
         try:
             object_id = ObjectId(user_id)
-        except:
-            return False
+        except Exception:
+            raise HTTPException(400, "ID inválido")
 
         result = await self.collection.delete_one({"_id": object_id})
-        
-        return result.deleted_count == 1
+
+        if result.deleted_count == 0:
+            raise HTTPException(404, "Usuário não encontrado")
+        return result.deleted_count > 0

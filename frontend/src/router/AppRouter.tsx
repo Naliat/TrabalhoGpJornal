@@ -1,23 +1,51 @@
-import { BrowserRouter, Route, Routes } from "react-router-dom";
-import ProtectedLayout from "../layout/ProtectedLayout";
-import Login from "../pages/Login/Login";
-import Register from "../pages/Register/Register";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 
-import Landing from "../pages/Landing/Landing"; 
+import PublicLayout from "../layout/PublicLayout";
+import ProtectedLayout from "../layout/ProtectedLayout";
+
+import Login from "../pages/Login/Login";
+import PasswordRecovery from "../pages/PasswordRecovery/PasswordRecovery";
+import Newsletter from "../pages/Newsletter/Newsletter";
+import Register from "../pages/Register/Register";
+import Landing from "../pages/Landing/Landing";
+import Home from "../pages/Home/Home";
+import OpportunitiesList from "../pages/Opportunity/Opportunity";
+import OpportunityDetails from "../pages/Opportunity/subpages/OpportunityDetails/OpportunityDetails";
+import EventsList from "../pages/Event/EventsList";
+import EventDetails from "../pages/Event/subpages/EventDetails";
+import BusSchedule from "../pages/BusSchedule/BusSchedule";
+import RuMenu from "../pages/RuMenu/RuMenu";
+import Assistencia from "../pages/Assistance/Assistencia";
 
 function AppRouter() {
-    return (
-        <BrowserRouter>
-            <Routes>
-                <Route path="/login" element={<Login />} />
-                <Route path="/register" element={<Register />} />
-                
-                <Route element={<ProtectedLayout />}>
-                    <Route path="/" element={<Landing />} /> 
-                </Route>
-            </Routes>
-        </BrowserRouter>
-    );
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route path="/login" element={<Login />} />
+        <Route path="/senha/recuperar" element={<PasswordRecovery />} />
+        <Route path="/newsletter" element={<Newsletter />} />
+        <Route path="/usuario/cadastro" element={<Register />} />
+        <Route path="/ru/cardapio" element={<RuMenu />} />
+        <Route path="/onibus/horarios" element={<BusSchedule />} />
+
+        <Route element={<PublicLayout />}>
+          <Route path="/" element={<Landing />} />
+          
+          <Route path="/oportunidades" element={<OpportunitiesList />} />
+          <Route path="/oportunidades/:id" element={<OpportunityDetails />} />
+          
+          <Route path="/eventos" element={<EventsList />} />
+          <Route path="/eventos/:id" element={<EventDetails />} />
+
+          <Route path="/assistencia" element={<Assistencia />} />
+        </Route>
+
+        <Route element={<ProtectedLayout />}>
+          <Route path="/home" element={<Home />} />
+        </Route>
+      </Routes>
+    </BrowserRouter>
+  );
 }
 
 export default AppRouter;

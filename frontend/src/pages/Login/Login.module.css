@@ -1,108 +1,202 @@
 .container {
   width: 100%;
   height: 100vh;
+  background: #ffffff;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: #f5f5f5;
+  box-sizing: border-box;
 }
 
-.card {
-  width: 380px;
-  padding: 35px;
+.wrapper {
+  width: 100%;
+  max-width: 1080px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 24px 16px;
+  gap: 20px;
+}
+
+.header {
+  flex-shrink: 0;
+  display: flex;
+  justify-content: center;
+}
+
+.cards {
+  width: 500px;
+  flex: 1;
   background: #ffffff;
-  border-radius: 12px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  border: 1px solid #e5e7eb;
+  border-radius: 18px;
+  padding: 36px 32px 40px;
+  display: grid;
+  grid-template-rows: auto 1fr;
+  row-gap: 28px;
+}
+
+.text {
   text-align: center;
 }
 
-.logo {
-  width: 120px;
-  margin-bottom: 10px;
+.title {
+  font-size: 24px;
+  font-weight: 700;
+  color: #0284c7;
+  margin-bottom: 6px;
 }
 
-.title {
-  font-size: 26px;
-  font-weight: 600;
-  margin-bottom: 25px;
+.subtitle {
+  font-size: 14px;
+  font-weight: 400;
+  color: #6b7280;
+}
+
+.cardForm {
+  width: 100%;
+  max-width: 380px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 .form {
+  width: 100%;
   display: flex;
   flex-direction: column;
   gap: 18px;
 }
 
-.inputGroup {
-  text-align: left;
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
+.floatingGroup {
+  position: relative;
+  width: 100%;
 }
 
-.inputGroup label {
-  font-size: 14px;
-  font-weight: 500;
-  color: #333;
-}
-
-.inputGroup input {
-  padding: 10px 12px;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  outline: none;
+.floatingGroup input {
+  width: 100%;
+  height: 56px;
+  padding: 24px 48px 10px 16px;
+  border: 1px solid #cbd5e1;
+  border-radius: 12px;
   font-size: 15px;
-  transition: 0.2s;
+  background: #ffffff;
 }
 
-.inputGroup input:focus {
-  border-color: #004aad;
+.floatingGroup input:focus {
+  outline: none;
+  border-color: #0284c7;
+}
+
+.floatingGroup label {
+  position: absolute;
+  left: 16px;
+  top: 10px;
+  font-size: 11px;
+  font-weight: 600;
+  color: #6b7280;
+  pointer-events: none;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.floatingGroup input:focus + label {
+  color: #0284c7;
+}
+
+.togglePassword {
+  position: absolute;
+  right: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #0284c7;
+  cursor: pointer;
+}
+
+.togglePassword svg {
+  stroke-width: 2px;
+}
+
+.togglePassword:hover {
+  opacity: 0.8;
+}
+
+.forgotPasswordWrapper {
+  text-align: right;
+  margin-top: -4px;
+}
+
+.forgotPassword {
+  font-size: 0.8rem;
+  color: #0284c7;
+  text-decoration: none;
+}
+
+.forgotPassword:hover {
+  text-decoration: underline;
+}
+
+.errorMessage {
+  padding: 8px 12px;
+  background-color: #fdecea;
+  color: #b71c1c;
+  border-radius: 8px;
+  font-size: 0.8rem;
+  text-align: center;
 }
 
 .loginBtn {
   margin-top: 10px;
-  padding: 10px;
-  background-color: #004aad;
-  color: #fff;
+  padding: 14px;
+  background-color: #0284c7;
+  color: #ffffff;
   border: none;
-  border-radius: 8px;
-  font-size: 16px;
+  border-radius: 14px;
+  font-size: 15px;
+  font-weight: 600;
   cursor: pointer;
-  transition: 0.2s;
 }
 
 .loginBtn:hover {
-  background-color: #003680;
-}
-
-.registerLink {
-  margin-top: 18px;
-  font-size: 14px;
-}
-
-.registerLink a {
-  color: #004aad;
-  font-weight: 500;
-  text-decoration: none;
-}
-
-.registerLink a:hover {
-  text-decoration: underline;
+  background-color: #0369a1;
 }
 
 .backHome {
-    margin-top: 10px;
-    font-size: 0.85rem;
-    text-align: center;
+  margin-top: 16px;
+  font-size: 0.75rem;
+  text-align: center;
 }
 
 .backHome a {
-    color: #444;
-    text-decoration: none;
-    transition: color 0.2s ease;
+  color: #6b7280;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: color 0.2s ease, transform 0.2s ease;
 }
 
 .backHome a:hover {
-    color: #004aad;
-    text-decoration: underline;
+  color: #111827;
+  transform: translateX(-2px);
+}
+
+@media (max-width: 600px) {
+  .cards {
+    width: 100%;
+    padding: 28px 22px 32px;
+    row-gap: 22px;
+  }
+
+  .cardForm {
+    max-width: 100%;
+  }
 }

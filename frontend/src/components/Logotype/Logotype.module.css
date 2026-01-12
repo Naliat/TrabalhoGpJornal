@@ -1,0 +1,90 @@
+.container {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.logo {
+  width: 32px;
+  height: auto;
+}
+
+.text {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.1;
+  margin: 0;
+  text-align: left;
+}
+
+.title {
+  text-transform: uppercase;
+  font-weight: 600;
+  color: #111827;
+}
+
+.subtitle {
+  text-transform: capitalize;
+  font-weight: 500;
+  color: #6B7280;
+}
+
+.sm {
+  flex-direction: row;
+}
+
+.sm .logo {
+  width: 36px;
+}
+
+.sm .title {
+  font-size: 0.9rem;
+}
+
+.sm .subtitle {
+  font-size: 0.75rem;
+}
+
+.md {
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.md .logo {
+  width: 56px;
+}
+
+.md .text {
+  text-align: center;
+}
+
+.md .title {
+  font-size: 1.125rem;
+}
+
+.md .subtitle {
+  font-size: 0.95rem;
+}
+
+.lg {
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.lg .logo {
+  width: 72px;
+}
+
+.lg .text {
+  text-align: center;
+}
+
+.lg .title {
+  font-size: 1.375rem;
+}
+
+.lg .subtitle {
+  font-size: 1.125rem;
+}
