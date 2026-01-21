@@ -16,6 +16,7 @@ import EventDetails from "../pages/Event/subpages/EventDetails";
 import BusSchedule from "../pages/BusSchedule/BusSchedule";
 import RuMenu from "../pages/RuMenu/RuMenu";
 import Assistencia from "../pages/Assistance/Assistencia";
+import AcademicCalendar from "../pages/AcademicCalendar/AcademicCalendar";
 
 function AppRouter() {
   return (
@@ -38,6 +39,8 @@ function AppRouter() {
           <Route path="/eventos/:id" element={<EventDetails />} />
 
           <Route path="/assistencia" element={<Assistencia />} />
+
+          <Route path="/calendario/academico" element={<AcademicCalendar />} />
         </Route>
 
         <Route element={<ProtectedLayout />}>

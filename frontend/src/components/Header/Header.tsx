@@ -44,7 +44,12 @@ function Header() {
             </li>
 
             <li>
-              
+              <NavLink to="/calendario/academico" className={getNavLinkClass}>
+                Calendário
+              </NavLink>
+            </li>
+
+            <li>
               <NavLink to="/assistencia" className={getNavLinkClass}>
                 Assistência
               </NavLink>
