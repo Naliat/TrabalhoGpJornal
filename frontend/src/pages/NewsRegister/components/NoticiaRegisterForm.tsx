@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useAuth } from "../../../auth/hooks/useAuth";
 import styles from "../NoticiaRegister.module.css";
 import { registerNoticia } from "../../../api/service/news/registerNoticia";
-import { academicTags, opportunityTags } from "../constants/noticiaTags";
+import { allNoticiaTags } from "../constants/noticiaTags";
 
 function NoticiaRegisterForm() {
   const { token } = useAuth();
@@ -25,7 +25,7 @@ function NoticiaRegisterForm() {
     setForm(prev => ({ ...prev, [name]: value }));
   }
 
-  function handleTagToggle(tag: string) {
+  function toggleTag(tag: string) {
     setForm(prev => ({
       ...prev,
       tags: prev.tags.includes(tag)
@@ -43,6 +43,11 @@ function NoticiaRegisterForm() {
       return;
     }
 
+    if (form.tags.length === 0) {
+      setError("Selecione pelo menos uma tag.");
+      return;
+    }
+
     try {
       setLoading(true);
       await registerNoticia(form, token);
@@ -55,7 +60,7 @@ function NoticiaRegisterForm() {
         tags: []
       });
     } catch (err: any) {
-      setError(err.message || "Erro ao cadastrar notícia");
+      setError(err.message || "Erro ao cadastrar notícia.");
     } finally {
       setLoading(false);
     }
@@ -65,49 +70,67 @@ function NoticiaRegisterForm() {
     <div className={styles.cardForm}>
       <form className={styles.form} onSubmit={handleSubmit}>
         <div className={styles.floatingGroup}>
-          <input name="titulo" value={form.titulo} onChange={handleChange} required />
+          <input
+            name="titulo"
+            value={form.titulo}
+            onChange={handleChange}
+            required
+          />
           <label>Título</label>
         </div>
 
         <div className={styles.floatingGroup}>
-          <select name="categoria" value={form.categoria} onChange={handleChange} required>
+          <select
+            name="categoria"
+            value={form.categoria}
+            onChange={handleChange}
+            required
+          >
             <option value="">Selecione</option>
-            <option value="oportunidade">Oportunidade</option>
-            <option value="academico">Acadêmico</option>
+            <option value="eventos">Eventos</option>
+            <option value="oportunidades">Oportunidades</option>
           </select>
           <label>Categoria</label>
         </div>
 
         <div className={styles.floatingGroup}>
-          <input name="imagem_url" value={form.imagem_url} onChange={handleChange} />
+          <input
+            name="imagem_url"
+            value={form.imagem_url}
+            onChange={handleChange}
+          />
           <label>URL da Imagem</label>
         </div>
 
         <div className={styles.floatingGroup}>
           <textarea
             name="conteudo"
+            rows={5}
             value={form.conteudo}
             onChange={handleChange}
-            rows={4}
             required
           />
           <label>Conteúdo</label>
         </div>
 
-        <div className={styles.tags}>
-          {(form.categoria === "oportunidade"
-            ? opportunityTags
-            : academicTags
-          ).map(tag => (
-            <button
-              type="button"
-              key={tag}
-              onClick={() => handleTagToggle(tag)}
-              className={form.tags.includes(tag) ? styles.tagActive : styles.tag}
-            >
-              {tag}
-            </button>
-          ))}
+        <div className={styles.tagsWrapper}>
+          <span className={styles.tagsLabel}>Tags</span>
+          <div className={styles.tags}>
+            {allNoticiaTags.map(tag => (
+              <button
+                type="button"
+                key={tag}
+                onClick={() => toggleTag(tag)}
+                className={
+                  form.tags.includes(tag)
+                    ? styles.tagActive
+                    : styles.tag
+                }
+              >
+                {tag.replace("-", " ")}
+              </button>
+            ))}
+          </div>
         </div>
 
         {error && <div className={styles.errorMessage}>{error}</div>}

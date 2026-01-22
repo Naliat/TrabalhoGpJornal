@@ -16,7 +16,7 @@ function NoticiaRegister() {
           <div className={styles.text}>
             <h1 className={styles.title}>Cadastrar Notícia</h1>
             <p className={styles.subtitle}>
-              Preencha os dados da nova notícia
+              Publique eventos ou oportunidades acadêmicas
             </p>
           </div>
 

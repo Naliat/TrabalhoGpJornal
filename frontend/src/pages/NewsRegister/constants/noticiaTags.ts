@@ -1,5 +1,4 @@
 export const opportunityTags = [
-  "todas",
   "bolsas-remuneradas",
   "estagio",
   "monitoria",
@@ -7,9 +6,13 @@ export const opportunityTags = [
 ];
 
 export const academicTags = [
-  "todas",
   "pesquisa",
   "extensao",
   "eventos",
   "empreendedorismo"
+];
+
+export const allNoticiaTags = [
+  ...opportunityTags,
+  ...academicTags
 ];

@@ -1,10 +1,9 @@
 .container {
   width: 100%;
   min-height: 100vh;
-  background: #ffffff;
+  background: #f8fafc;
   display: flex;
   justify-content: center;
-  box-sizing: border-box;
 }
 
 .wrapper {
@@ -15,25 +14,22 @@
   flex-direction: column;
   align-items: center;
   padding: 24px 16px;
-  gap: 20px;
+  gap: 24px;
 }
 
 .header {
-  flex-shrink: 0;
   display: flex;
   justify-content: center;
 }
 
 .cards {
-  width: 500px;
+  width: 520px;
   background: #ffffff;
-  border: 1px solid #e5e7eb;
-  border-radius: 18px;
-  padding: 36px 32px 40px;
+  border-radius: 20px;
+  padding: 36px 34px 42px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
   display: grid;
-  grid-template-rows: auto 1fr;
   row-gap: 28px;
-  box-sizing: border-box;
 }
 
 .text {
@@ -41,37 +37,31 @@
 }
 
 .title {
-  font-size: 24px;
+  font-size: 26px;
   font-weight: 700;
   color: #0284c7;
-  margin-bottom: 6px;
 }
 
 .subtitle {
   font-size: 14px;
-  font-weight: 400;
-  color: #6b7280;
+  color: #64748b;
+  margin-top: 6px;
 }
 
 .cardForm {
   width: 100%;
-  max-width: 420px;
+  max-width: 440px;
   margin: 0 auto;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
 }
 
 .form {
-  width: 100%;
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 18px 14px;
 }
 
-/* textarea, tags e botões ocupam linha inteira */
 .form .floatingGroup:nth-child(n + 3),
-.form .tags,
+.form .tagsWrapper,
 .form .errorMessage,
 .form .registerBtn {
   grid-column: 1 / -1;
@@ -79,7 +69,6 @@
 
 .floatingGroup {
   position: relative;
-  width: 100%;
 }
 
 .floatingGroup input,
@@ -87,11 +76,14 @@
 .floatingGroup textarea {
   width: 100%;
   min-height: 56px;
-  padding: 24px 16px 10px 16px;
+  padding: 26px 16px 10px;
+  border-radius: 14px;
   border: 1px solid #cbd5e1;
-  border-radius: 12px;
-  font-size: 15px;
   background: #ffffff;
+  font-size: 15px;
+}
+
+.floatingGroup textarea {
   resize: none;
 }
 
@@ -104,40 +96,42 @@
 
 .floatingGroup label {
   position: absolute;
-  left: 16px;
   top: 10px;
+  left: 16px;
   font-size: 11px;
   font-weight: 600;
-  color: #6b7280;
-  pointer-events: none;
+  color: #64748b;
   text-transform: uppercase;
-  letter-spacing: 0.05em;
 }
 
-.floatingGroup input:focus + label,
-.floatingGroup select:focus + label,
-.floatingGroup textarea:focus + label {
-  color: #0284c7;
+.tagsWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 
-/* TAGS */
+.tagsLabel {
+  font-size: 12px;
+  font-weight: 600;
+  color: #475569;
+  text-transform: uppercase;
+}
 
 .tags {
   display: flex;
   flex-wrap: wrap;
-  gap: 8px;
-  margin-top: 4px;
+  gap: 10px;
 }
 
-.tag {
-  padding: 6px 14px;
+.tag,
+.tagActive {
+  padding: 8px 16px;
   border-radius: 999px;
-  border: 1px solid #cbd5e1;
-  background: #ffffff;
-  color: #374151;
-  font-size: 12px;
+  font-size: 13px;
   cursor: pointer;
   transition: all 0.2s ease;
+  border: 1px solid #cbd5e1;
+  background: #ffffff;
 }
 
 .tag:hover {
@@ -151,34 +145,29 @@
   border-color: #0284c7;
 }
 
-/* ERRO */
-
 .errorMessage {
-  padding: 8px 12px;
-  background-color: #fdecea;
-  color: #b71c1c;
-  border-radius: 8px;
-  font-size: 0.8rem;
+  background: #fee2e2;
+  color: #991b1b;
+  padding: 10px;
+  border-radius: 12px;
+  font-size: 13px;
   text-align: center;
 }
 
-/* BOTÃO */
-
 .registerBtn {
-  margin-top: 12px;
+  margin-top: 8px;
   padding: 14px;
-  background-color: #0284c7;
-  color: #ffffff;
+  border-radius: 16px;
   border: none;
-  border-radius: 14px;
+  background: #0284c7;
+  color: #ffffff;
   font-size: 15px;
   font-weight: 600;
   cursor: pointer;
-  transition: background 0.2s ease, opacity 0.2s ease;
 }
 
 .registerBtn:hover {
-  background-color: #0369a1;
+  background: #0369a1;
 }
 
 .registerBtn:disabled {
@@ -186,16 +175,10 @@
   cursor: not-allowed;
 }
 
-/* RESPONSIVO */
-
 @media (max-width: 600px) {
   .cards {
     width: 100%;
-    padding: 28px 22px 32px;
-  }
-
-  .cardForm {
-    max-width: 100%;
+    padding: 28px 22px;
   }
 
   .form {
