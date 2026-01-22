@@ -1,35 +1,58 @@
 import { Link, useParams } from "react-router-dom";
+import { useEffect, useState } from "react";
 import {
   Calendar,
   Clock,
-  MapPin,
-  Users,
   Info,
-  Mail,
-  Phone,
   CheckCircle,
-  AlertCircle,
-  Lightbulb
 } from "lucide-react";
 
 import styles from "./EventDetails.module.css";
-import { eventsMock } from "../../../mocks/event";
-import { formatEventDateRange } from "../utils/formatEventDateRange";
+import type { NoticiaResponseDTO } from "../../NewsRegister/types/NoticiaResponseDTO";
+import { getNoticiaById } from "../../../api/service/news/getNoticiaById";
+
+/**
+ * Corrige datas vindas da API no formato:
+ * 2026-01-11T13:02:03.762000
+ */
+function parseApiDate(dateString?: string): Date | null {
+  if (!dateString) return null;
+  return new Date(dateString.replace(/\.\d{6}/, ""));
+}
 
 function EventDetails() {
-  const { id } = useParams();
+  const { id } = useParams<{ id: string }>();
 
-  const event = eventsMock.find(
-    (item) => item.id === Number(id)
-  );
+  const [event, setEvent] = useState<NoticiaResponseDTO | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    async function fetchNoticia() {
+      if (!id) return;
+
+      try {
+        const data = await getNoticiaById(id);
+        setEvent(data);
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    fetchNoticia();
+  }, [id]);
+
+  if (loading) {
+    return <p className={styles.notFound}>Carregando...</p>;
+  }
 
   if (!event) {
-    return (
-      <p className={styles.notFound}>
-        Evento não encontrado.
-      </p>
-    );
+    return <p className={styles.notFound}>Evento não encontrado.</p>;
   }
+
+  const publishedDate = parseApiDate(
+    // fallback defensivo
+    (event as any).data_publicacao ?? event.data_publicacao
+  );
 
   return (
     <div className={styles.container}>
@@ -39,32 +62,64 @@ function EventDetails() {
         </Link>
 
         <h1 className={styles.title}>{event.titulo}</h1>
+
         <p className={styles.headerDescription}>
-          {event.subtitulo}
+          {event.conteudo}
         </p>
       </header>
 
       <div className={styles.mainGrid}>
+        {/* COLUNA ESQUERDA */}
         <section className={styles.leftColumn}>
-          <img
-            src={event.image}
-            alt={event.titulo}
-            className={styles.image}
-          />
+          {event.imagem_url && (
+            <img
+              src={event.imagem_url}
+              alt={event.titulo}
+              className={styles.image}
+            />
+          )}
 
-          <div className={styles.infoBox}>
-            <h3>Informações do Evento</h3>
+          <div className={styles.contentBox}>
+            <h3>Sobre o evento</h3>
+            <p>{event.conteudo}</p>
+
+            <h3>Tags</h3>
+            <ul className={styles.iconList}>
+              {event.tags.map((tag, index) => (
+                <li key={index}>
+                  <CheckCircle size={16} />
+                  <span>{tag}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <div className={styles.applyBox}>
+            <h3>Mais informações</h3>
+            <p>
+              Este evento foi publicado na plataforma.
+              Para mais detalhes, acompanhe as atualizações.
+            </p>
+          </div>
+        </section>
+
+        {/* COLUNA DIREITA */}
+        <aside className={styles.rightColumn}>
+          <div className={styles.sideBox}>
+            <h3>
+              <Info size={18} />
+              Informações
+            </h3>
 
             <ul className={styles.infoList}>
               <li>
                 <Calendar size={16} />
                 <div>
-                  <strong>Data</strong>
+                  <strong>Data de publicação</strong>
                   <span>
-                    {formatEventDateRange(
-                      event.dataInicio,
-                      event.dataFim
-                    )}
+                    {publishedDate
+                      ? publishedDate.toLocaleDateString("pt-BR")
+                      : "Data não informada"}
                   </span>
                 </div>
               </li>
@@ -73,98 +128,18 @@ function EventDetails() {
                 <Clock size={16} />
                 <div>
                   <strong>Horário</strong>
-                  <span>{event.horario}</span>
-                </div>
-              </li>
-
-              <li>
-                <MapPin size={16} />
-                <div>
-                  <strong>Local</strong>
-                  <span>{event.local}</span>
-                </div>
-              </li>
-
-              <li>
-                <Users size={16} />
-                <div>
-                  <strong>Vagas</strong>
-                  <span>{event.totalVagas} vagas totais</span>
+                  <span>
+                    {publishedDate
+                      ? publishedDate.toLocaleTimeString("pt-BR")
+                      : "—"}
+                  </span>
                 </div>
               </li>
             </ul>
-          </div>
-
-          <div className={styles.contentBox}>
-            <h3>Sobre o Evento</h3>
-            <p>{event.sobre}</p>
-
-            <h3>Programação</h3>
-            <ul className={styles.iconList}>
-              {event.programacao.map((item, index) => (
-                <li key={index}>
-                  <CheckCircle size={16} />
-                  <span>{item}</span>
-                </li>
-              ))}
-            </ul>
-
-            <h3>Requisitos e Observações</h3>
-            <ul className={styles.iconListWarning}>
-              {event.requisitosObservacoes.map((item, index) => (
-                <li key={index}>
-                  <AlertCircle size={16} />
-                  <span>{item}</span>
-                </li>
-              ))}
-            </ul>
-          </div>
-        </section>
-
-        <aside className={styles.rightColumn}>
-          <div className={styles.sideBox}>
-            <h3>
-              <Info size={18} />
-              Organizador
-            </h3>
-
-            <p>{event.organizador}</p>
-
-            <div className={styles.contact}>
-              <Mail size={16} />
-              <span>{event.emailContato}</span>
-            </div>
-
-            <div className={styles.contact}>
-              <Phone size={16} />
-              <span>{event.telefoneContato}</span>
-            </div>
 
             <button className={styles.primaryButton}>
-              Ir para o link de Inscrição
+              Acompanhar
             </button>
-          </div>
-
-          <div className={styles.tipsBox}>
-            <strong>Dicas para o Evento</strong>
-            <ul className={styles.tipsList}>
-              <li>
-                <Clock size={16} />
-                <span>Chegue com 15 minutos de antecedência</span>
-              </li>
-              <li>
-                <Info size={16} />
-                <span>Traga documento de identificação</span>
-              </li>
-              <li>
-                <Mail size={16} />
-                <span>Confirme sua presença pelo email</span>
-              </li>
-              <li>
-                <Lightbulb size={16} />
-                <span>Materiais serão fornecidos no local</span>
-              </li>
-            </ul>
           </div>
         </aside>
       </div>

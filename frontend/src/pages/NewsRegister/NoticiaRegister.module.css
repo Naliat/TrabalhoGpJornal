@@ -1,0 +1,204 @@
+.container {
+  width: 100%;
+  min-height: 100vh;
+  background: #ffffff;
+  display: flex;
+  justify-content: center;
+  box-sizing: border-box;
+}
+
+.wrapper {
+  width: 100%;
+  max-width: 1080px;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 24px 16px;
+  gap: 20px;
+}
+
+.header {
+  flex-shrink: 0;
+  display: flex;
+  justify-content: center;
+}
+
+.cards {
+  width: 500px;
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 18px;
+  padding: 36px 32px 40px;
+  display: grid;
+  grid-template-rows: auto 1fr;
+  row-gap: 28px;
+  box-sizing: border-box;
+}
+
+.text {
+  text-align: center;
+}
+
+.title {
+  font-size: 24px;
+  font-weight: 700;
+  color: #0284c7;
+  margin-bottom: 6px;
+}
+
+.subtitle {
+  font-size: 14px;
+  font-weight: 400;
+  color: #6b7280;
+}
+
+.cardForm {
+  width: 100%;
+  max-width: 420px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.form {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px 14px;
+}
+
+/* textarea, tags e botões ocupam linha inteira */
+.form .floatingGroup:nth-child(n + 3),
+.form .tags,
+.form .errorMessage,
+.form .registerBtn {
+  grid-column: 1 / -1;
+}
+
+.floatingGroup {
+  position: relative;
+  width: 100%;
+}
+
+.floatingGroup input,
+.floatingGroup select,
+.floatingGroup textarea {
+  width: 100%;
+  min-height: 56px;
+  padding: 24px 16px 10px 16px;
+  border: 1px solid #cbd5e1;
+  border-radius: 12px;
+  font-size: 15px;
+  background: #ffffff;
+  resize: none;
+}
+
+.floatingGroup input:focus,
+.floatingGroup select:focus,
+.floatingGroup textarea:focus {
+  outline: none;
+  border-color: #0284c7;
+}
+
+.floatingGroup label {
+  position: absolute;
+  left: 16px;
+  top: 10px;
+  font-size: 11px;
+  font-weight: 600;
+  color: #6b7280;
+  pointer-events: none;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.floatingGroup input:focus + label,
+.floatingGroup select:focus + label,
+.floatingGroup textarea:focus + label {
+  color: #0284c7;
+}
+
+/* TAGS */
+
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 4px;
+}
+
+.tag {
+  padding: 6px 14px;
+  border-radius: 999px;
+  border: 1px solid #cbd5e1;
+  background: #ffffff;
+  color: #374151;
+  font-size: 12px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.tag:hover {
+  border-color: #0284c7;
+  color: #0284c7;
+}
+
+.tagActive {
+  background: #0284c7;
+  color: #ffffff;
+  border-color: #0284c7;
+}
+
+/* ERRO */
+
+.errorMessage {
+  padding: 8px 12px;
+  background-color: #fdecea;
+  color: #b71c1c;
+  border-radius: 8px;
+  font-size: 0.8rem;
+  text-align: center;
+}
+
+/* BOTÃO */
+
+.registerBtn {
+  margin-top: 12px;
+  padding: 14px;
+  background-color: #0284c7;
+  color: #ffffff;
+  border: none;
+  border-radius: 14px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s ease, opacity 0.2s ease;
+}
+
+.registerBtn:hover {
+  background-color: #0369a1;
+}
+
+.registerBtn:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+/* RESPONSIVO */
+
+@media (max-width: 600px) {
+  .cards {
+    width: 100%;
+    padding: 28px 22px 32px;
+  }
+
+  .cardForm {
+    max-width: 100%;
+  }
+
+  .form {
+    grid-template-columns: 1fr;
+  }
+}

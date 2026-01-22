@@ -24,6 +24,7 @@ async def criar_noticia(
              raise HTTPException(status_code=503, detail="Serviço indisponível. DB não conectado.")
         return new_noticia
     except Exception as e:
+        print(e)
         raise HTTPException(status_code=500, detail=f"Erro interno: {e}")
 
 @router.get("/", response_model=List[Noticia])

@@ -21,8 +21,9 @@ function RegisterForm() {
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
+
         
-         
+        
         const backendPayload = {
             username: `${formData.firstName} ${formData.secondName}`.trim(),
             matricula: formData.matricula || null,
@@ -30,7 +31,8 @@ function RegisterForm() {
             user_type: formData.userType, 
             password: formData.password
         };
-
+        
+        console.log(backendPayload);
         handleRegister(backendPayload as any);
     };
 

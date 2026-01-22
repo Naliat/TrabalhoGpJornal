@@ -17,6 +17,7 @@ import BusSchedule from "../pages/BusSchedule/BusSchedule";
 import RuMenu from "../pages/RuMenu/RuMenu";
 import Assistencia from "../pages/Assistance/Assistencia";
 import AcademicCalendar from "../pages/AcademicCalendar/AcademicCalendar";
+import NoticiaRegister from "../pages/NewsRegister/NoticiaRegister";
 
 function AppRouter() {
   return (
@@ -25,7 +26,6 @@ function AppRouter() {
         <Route path="/login" element={<Login />} />
         <Route path="/senha/recuperar" element={<PasswordRecovery />} />
         <Route path="/newsletter" element={<Newsletter />} />
-        <Route path="/usuario/cadastro" element={<Register />} />
         <Route path="/ru/cardapio" element={<RuMenu />} />
         <Route path="/onibus/horarios" element={<BusSchedule />} />
 
@@ -45,6 +45,8 @@ function AppRouter() {
 
         <Route element={<ProtectedLayout />}>
           <Route path="/home" element={<Home />} />
+          <Route path="/usuario/cadastro" element={<Register />} />
+          <Route path="/noticia/novo" element={<NoticiaRegister />} />
         </Route>
       </Routes>
     </BrowserRouter>

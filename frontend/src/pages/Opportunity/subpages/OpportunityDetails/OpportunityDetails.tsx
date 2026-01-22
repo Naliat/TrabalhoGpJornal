@@ -1,24 +1,44 @@
 import { Link, useParams } from "react-router-dom";
+import { useEffect, useState } from "react";
 import {
   Calendar,
-  Wallet,
-  User,
   Clock,
-  MapPin,
   Info,
   CheckCircle,
-  Gift
 } from "lucide-react";
 
 import styles from "./OpportunityDetails.module.css";
-import { opportunitiesMock } from "../../../../mocks/opportunity";
+import type { NoticiaResponseDTO } from "../../../NewsRegister/types/NoticiaResponseDTO";
+import { getNoticiaById } from "../../../../api/service/news/getNoticiaById";
 
 function OpportunityDetails() {
-  const { id } = useParams();
+  const { id } = useParams<{ id: string }>();
 
-  const opportunity = opportunitiesMock.find(
-    (op) => op.id === Number(id)
-  );
+  const [opportunity, setOpportunity] = useState<NoticiaResponseDTO | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    async function fetchNoticia() {
+      if (!id) return;
+
+      try {
+        const data = await getNoticiaById(id);
+        setOpportunity(data);
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    fetchNoticia();
+  }, [id]);
+
+  if (loading) {
+    return (
+      <p className={styles.notFound}>
+        Carregando...
+      </p>
+    );
+  }
 
   if (!opportunity) {
     return (
@@ -35,65 +55,44 @@ function OpportunityDetails() {
           ← Voltar para oportunidades
         </Link>
 
-        <h1 className={styles.title}>{opportunity.title}</h1>
+        <h1 className={styles.title}>{opportunity.titulo}</h1>
 
         <p className={styles.headerDescription}>
-          {opportunity.descricao}
+          {opportunity.conteudo}
         </p>
       </header>
 
       <div className={styles.mainGrid}>
         <section className={styles.leftColumn}>
-          <img
-            src={opportunity.image}
-            alt={opportunity.title}
-            className={styles.image}
-          />
+          {opportunity.imagem_url && (
+            <img
+              src={opportunity.imagem_url}
+              alt={opportunity.titulo}
+              className={styles.image}
+            />
+          )}
 
           <div className={styles.contentBox}>
             <h3>Sobre a oportunidade</h3>
-            <p>{opportunity.sobre}</p>
+            <p>{opportunity.conteudo}</p>
 
-            <h3>Requisitos</h3>
+            <h3>Tags</h3>
             <ul className={styles.iconList}>
-              {opportunity.requisitos.map((req, index) => (
+              {opportunity.tags.map((tag, index) => (
                 <li key={index}>
                   <CheckCircle size={16} />
-                  {req}
-                </li>
-              ))}
-            </ul>
-
-            <h3>Benefícios</h3>
-            <ul className={styles.iconList}>
-              {opportunity.beneficios.map((benef, index) => (
-                <li key={index}>
-                  <Gift size={16} />
-                  {benef}
+                  {tag}
                 </li>
               ))}
             </ul>
           </div>
 
           <div className={styles.applyBox}>
-            <h3>Como se Candidatar</h3>
+            <h3>Mais informações</h3>
             <p>
-              Para se candidatar a esta oportunidade,
-              clique no botão abaixo para ser
-              direcionado ao site oficial de
-              inscrições. Certifique-se de ter todos
-              os documentos necessários e preencha o
-              formulário com atenção.
+              Esta oportunidade foi publicada na plataforma.
+              Para mais detalhes, acompanhe as atualizações.
             </p>
-
-            <a
-              href="#"
-              target="_blank"
-              rel="noopener noreferrer"
-              className={styles.applyButton}
-            >
-              Candidatar-se no Site Oficial
-            </a>
           </div>
         </section>
 
@@ -108,37 +107,9 @@ function OpportunityDetails() {
               <li>
                 <Calendar size={16} />
                 <div>
-                  <strong>Prazo de inscrição</strong>
+                  <strong>Data de publicação</strong>
                   <span>
-                    {new Date(
-                      opportunity.prazoInscricao
-                    ).toLocaleDateString("pt-BR")}
-                  </span>
-                </div>
-              </li>
-
-              <li>
-                <MapPin size={16} />
-                <div>
-                  <strong>Departamento</strong>
-                  <span>{opportunity.departamento}</span>
-                </div>
-              </li>
-
-              <li>
-                <User size={16} />
-                <div>
-                  <strong>Responsável</strong>
-                  <span>{opportunity.professorResponsavel}</span>
-                </div>
-              </li>
-
-              <li>
-                <Clock size={16} />
-                <div>
-                  <strong>Carga horária</strong>
-                  <span>
-                    {opportunity.cargaHorariaSemanal}h semanais
+                    {new Date(opportunity.created_at).toLocaleDateString("pt-BR")}
                   </span>
                 </div>
               </li>
@@ -146,38 +117,17 @@ function OpportunityDetails() {
               <li>
                 <Clock size={16} />
                 <div>
-                  <strong>Duração</strong>
-                  <span>{opportunity.duracao}</span>
-                </div>
-              </li>
-
-              <li>
-                <Wallet size={16} />
-                <div>
-                  <strong>Remuneração</strong>
+                  <strong>Horário</strong>
                   <span>
-                    {opportunity.valor > 0
-                      ? `R$ ${opportunity.valor.toFixed(2)}`
-                      : "Voluntário"}
+                    {new Date(opportunity.created_at).toLocaleTimeString("pt-BR")}
                   </span>
                 </div>
               </li>
             </ul>
 
             <button className={styles.primaryButton}>
-              Candidatar-se
+              Acompanhar
             </button>
-          </div>
-
-          <div className={styles.alertBox}>
-            <strong>Atenção ao Prazo!</strong>
-            <p>
-              As inscrições encerram em{" "}
-              {new Date(
-                opportunity.prazoInscricao
-              ).toLocaleDateString("pt-BR")}
-              . Não perca essa oportunidade!
-            </p>
           </div>
         </aside>
       </div>
