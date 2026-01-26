@@ -1,4 +1,4 @@
-import { LogIn } from "lucide-react";
+import { LogIn} from "lucide-react"; 
 import { NavLink, useNavigate } from "react-router-dom";
 
 import Logotype from "../Logotype/Logotype";
@@ -52,6 +52,14 @@ function Header() {
             <li>
               <NavLink to="/assistencia" className={getNavLinkClass}>
                 Assistência
+              </NavLink>
+            </li>
+
+            <li>
+              <NavLink to="/colaborar" className={getNavLinkClass}>
+                <span className={styles.colabLink}>
+                  Colabore conosco
+                </span>
               </NavLink>
             </li>
           </ul>

@@ -17,6 +17,7 @@ import BusSchedule from "../pages/BusSchedule/BusSchedule";
 import RuMenu from "../pages/RuMenu/RuMenu";
 import Assistencia from "../pages/Assistance/Assistencia";
 import AcademicCalendar from "../pages/AcademicCalendar/AcademicCalendar";
+import Collaboration from "../pages/Collaboration/Collaboration"; 
 
 function AppRouter() {
   return (
@@ -41,6 +42,8 @@ function AppRouter() {
           <Route path="/assistencia" element={<Assistencia />} />
 
           <Route path="/calendario/academico" element={<AcademicCalendar />} />
+
+          <Route path="/colaborar" element={<Collaboration />} />
         </Route>
 
         <Route element={<ProtectedLayout />}>

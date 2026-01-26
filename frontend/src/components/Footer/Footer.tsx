@@ -46,7 +46,7 @@ function Footer() {
         <div className={styles.divider} />
 
         <div className={styles.bottom}>
-          <span>© 2025 Jornal UFC Quixadá. Todos os direitos reservados.</span>
+          <span>© 2026 Jornal UFC Quixadá. Todos os direitos reservados.</span>
 
           <div className={styles.bottomLinks}>
             <span>Privacidade</span>

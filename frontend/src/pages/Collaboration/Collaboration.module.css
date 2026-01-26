@@ -1,0 +1,212 @@
+.container {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 60px 20px;
+  animation: slideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 60px;
+}
+
+.header h1 {
+  font-size: 3.2rem;
+  background: linear-gradient(135deg, #0f172a 0%, #0095da 100%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  margin-bottom: 15px;
+}
+
+.header p {
+  color: #64748b;
+  font-size: 1.2rem;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+ .githubSection {
+  margin-bottom: 50px;
+}
+
+.card {
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  padding: 50px;
+  border-radius: 28px;
+  text-align: center;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.08);
+  transition: all 0.4s ease;
+}
+
+.iconWrapper {
+  color: #0095da;
+  margin-bottom: 20px;
+  display: flex;
+  justify-content: center;
+}
+
+.githubBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  background: #0f172a;
+  color: #fff;
+  padding: 16px 32px;
+  border-radius: 14px;
+  margin-top: 25px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  box-shadow: 0 10px 20px rgba(15, 23, 42, 0.2);
+}
+
+.githubBtn:hover {
+  background: #0095da;
+  transform: translateY(-3px);
+  box-shadow: 0 15px 30px rgba(0, 149, 218, 0.3);
+}
+
+ .forumSection {
+  display: grid;
+  grid-template-columns: 1.2fr 1.8fr;
+  gap: 40px;
+}
+
+.formCard {
+  background: #ffffff;
+  padding: 40px;
+  border-radius: 28px;
+  border: 1px solid #f1f5f9;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.05);
+  position: sticky;
+  top: 100px;
+}
+
+.formCard h3 {
+  font-size: 1.5rem;
+  color: #1e293b;
+  margin-bottom: 30px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.formCard input, 
+.formCard textarea {
+  width: 100%;
+  padding: 16px;
+  margin-bottom: 20px;
+  border: 2px solid #f1f5f9;
+  border-radius: 14px;
+  background: #f8fafc;
+  font-size: 1rem;
+  transition: all 0.2s ease;
+}
+
+.formCard input:focus, 
+.formCard textarea:focus {
+  outline: none;
+  border-color: #0095da;
+  background: #fff;
+  box-shadow: 0 0 0 4px rgba(0, 149, 218, 0.1);
+}
+
+.formCard textarea {
+  height: 150px;
+  resize: none;
+}
+
+.sendBtn {
+  width: 100%;
+  background: #0095da;
+  color: white;
+  border: none;
+  padding: 18px;
+  border-radius: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  transition: all 0.3s ease;
+}
+
+.sendBtn:hover {
+  filter: brightness(1.1);
+  transform: scale(1.02);
+}
+
+ .feed h3 {
+  margin-bottom: 30px;
+  color: #334155;
+  font-size: 1.3rem;
+  padding-left: 10px;
+}
+
+.suggestionCard {
+  background: #fff;
+  padding: 30px;
+  border-radius: 24px;
+  margin-bottom: 20px;
+  border: 1px solid #f1f5f9;
+  transition: transform 0.3s ease;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.02);
+}
+
+.suggestionCard:hover {
+  transform: translateX(5px);
+  border-color: #e2e8f0;
+}
+
+.cardHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.date {
+  font-size: 0.85rem;
+  color: #94a3b8;
+  background: #f1f5f9;
+  padding: 4px 12px;
+  border-radius: 20px;
+}
+
+.suggestionCard p {
+  color: #475569;
+  line-height: 1.7;
+}
+
+.emptyCard {
+  text-align: center;
+  padding: 60px;
+  background: #f8fafc;
+  border-radius: 24px;
+  border: 2px dashed #e2e8f0;
+  color: #94a3b8;
+}
+
+ 
+@media (max-width: 900px) {
+  .forumSection {
+    grid-template-columns: 1fr;
+  }
+  
+  .formCard {
+    position: static;
+  }
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(40px); }
+  to { opacity: 1; transform: translateY(0); }
+}

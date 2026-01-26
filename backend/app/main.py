@@ -6,7 +6,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from motor.motor_asyncio import AsyncIOMotorClient
 from starlette.middleware.base import BaseHTTPMiddleware
 from .core.config import settings
-from .api.endpoints import noticias, users, auth, editais, newsletter 
+from .api.endpoints import noticias, users, auth, editais, newsletter, colaboracao
 
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 logger = logging.getLogger(__name__)
@@ -79,6 +79,7 @@ def create_app() -> FastAPI:
     application.include_router(newsletter.router, tags=["Newsletter"])
     application.include_router(noticias.router, tags=["Notícias"])  
     application.include_router(editais.router, tags=["Editais"])
+    application.include_router(colaboracao.router, tags=["Colaboração"])
     
     return application
 
