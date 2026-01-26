@@ -53,7 +53,7 @@ function Collaboration() {
             <Github size={48} color="#0095da" />
             <h3>Contribuição Técnica</h3>
             <p>Encontrou um bug ou tem uma sugestão de código? Abra uma Issue em nosso repositório oficial.</p>
-            <a href="https://github.com/Naliat/TrabalhoGpJornal" className={styles.githubBtn}>
+            <a href="" className={styles.githubBtn}>
               <AlertCircle size={18} /> Reportar no GitHub
             </a>
           </div>
